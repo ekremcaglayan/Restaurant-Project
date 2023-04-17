@@ -1080,3 +1080,19 @@ option{
 .modal-header .close {
   margin-top: -1.5rem;
 }
+
+.rating-color{
+  color:#fbc634 !important;
+}
+
+@media (max-width: 1200px){
+  .restoranlar-detay{
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 992px){
+  .restoranlar-detay{
+    margin-right: 0;
+  }
+}

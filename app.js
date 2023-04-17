@@ -15,9 +15,8 @@ app.get('/', (req, res) => {
 app.get("/:navigation", function(req, res){
 
   const navigation = req.params.navigation;
-  
-    res.render(navigation, {title: navigation});
-  });
+  res.render(navigation, {title: navigation});
+});
 
 app.listen(3000, () => {
   console.log('Server has been started on port 3000.');
