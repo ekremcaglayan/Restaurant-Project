@@ -12,6 +12,22 @@ app.get('/', (req, res) => {
   res.render('anasayfa', {title: 'Anasayfa'});
 });
 
+app.get('/restoranlar', (req, res) => {
+  res.render('restoranlar', {title: 'Restoranlar'});
+});
+
+app.get('/arama', (req, res) => {
+  res.render('arama', {title: 'Restoranlar'});
+});
+
+
+app.get("/:navigation", function(req, res){
+
+  const navigation = req.params.navigation;
+  
+    res.render(navigation, {title: navigation});
+  });
+
 app.listen(3000, () => {
   console.log('Server has been started on port 3000.');
 });
