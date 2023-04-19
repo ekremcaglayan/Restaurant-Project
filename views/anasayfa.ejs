@@ -2,51 +2,48 @@
     <!-- restaurant section -->
     <section class="food_section layout_padding-bottom">
         <div class="container">
-            <div class="heading_container heading_center">
+            <div class="text-center">
                 <h1 class="search-h1">Ne Yemek İstersin?</h1>
-                <div class="d-grid gap-2 col-sm-6 d-flex justify-content-center">
                     <div class="user_option">
-                        <a class="order_online" data-bs-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <a class="order_online" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseExample">
                             Aramaya Başla
                         </a>
                     </div>
-                </div>
-                <div class="collapse col-sm-12" id="collapseSearch">
-
-                    <div class="d-flex justify-content-center">
-                        <select class="form-select select-style" aria-label="Default select example">
-                            <option selected>Yemek seçiniz</option>
-                            <option value="1">Tavuk</option>
-                            <option value="2">Et</option>
-                            <option value="3">Balık</option>
-                        </select>
-                    </div>
-        
-                    <div class="d-flex justify-content-center">
-                        <select class="form-select select-style" aria-label="Default select example">
-                            <option selected>Spesifik yemek seçiniz</option>
-                            <option value="1">Cajun Tavuk</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-        
-                    <div class="d-flex justify-content-center">
-                        <select class="form-select select-style" aria-label="Default select example">
-                            <option selected>Restoranda sizin için ne önemli</option>
-                            <option value="1">Lezzet</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <div class="col-sm-6">
-                            <button type="button" class="btn btn-secondary">Filtre ekle</button>
-                            <button type="button" class="btn btn-warning">Filtrele</button>
+                    <form action="/test" method="post">
+                        <div class="row justify-content-center collapse" id="collapseSearch">
+                            <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
+                                <select name="baseFood" class="w-100 selectpicker" data-style="btn-select" multiple data-live-search="true" multiple title="Yemek Seçiniz...">
+                                    <optgroup label="Et">
+                                        <option>Kırmızı Et</option>
+                                        <option>Tavuk</option>
+                                        <option>Balık</option>
+                                    </optgroup>
+                                    <optgroup label="Vegan">
+                                        <option>Sebze</option>
+                                        <option>Bakliyat</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                            <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
+                                <select name="specFood" class="w-100 selectpicker" data-style="btn-select" multiple data-live-search="true" multiple title="Genel Yemek Seçiniz...">
+                                    <option>Burger</option>
+                                    <option>Schnitzel</option>
+                                    <option>Izgara</option>
+                                </select>
+                            </div>
+                            <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
+                                <select name="priority" class="w-100 selectpicker" data-style="btn-select" multiple data-live-search="true" multiple title="Restoranda sizin için ne önemli?">
+                                    <option>Lezzet</option>
+                                    <option>Fiyat</option>
+                                    <option>Hız</option>
+                                </select>
+                            </div>
+                            <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
+                                <button class="w-50 btn btn-success" type="submit">Restoranları Filtrele</button>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <br><h2>Önerilen Restoranlar</h2>
+                    </form>
+                    <br><h2>Önerilen Restoranlar</h2>
             </div>
             <div class="filters-content">
                 <div class="row grid">

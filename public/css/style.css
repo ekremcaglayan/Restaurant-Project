@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&display=swap");
 body {
-  font-family: "Open Sans", sans-serif;
+  /*font-family: "Open Sans", sans-serif;*/
+  font-family: 'Montserrat', sans-serif;
   color: #0c0c0c;
   background-color: #ffffff;
   overflow-x: hidden;
@@ -194,10 +195,10 @@ a:focus {
   color: #ffbe33;
 }
 
-.user_option {
-  display: -webkit-box;
+.user_option { /*MEHMET arama butonu ortalansın diye yorum satırına aldım*/
+  /*display: -webkit-box;*/
   display: -ms-flexbox;
-  display: flex;
+  /*display: flex;*/
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -1095,4 +1096,27 @@ option{
   .restoranlar-detay{
     margin-right: 0;
   }
+}
+
+
+/* selectpicker*/
+.multiselect-margin{
+  margin: 15px;
+}
+
+.btn-select {
+  --bs-btn-color: #212529;
+  --bs-btn-bg: #f1f2f3;
+  --bs-btn-border-color: #f1f2f3;
+  --bs-btn-hover-color: #212529;
+  --bs-btn-hover-bg: #DDDDDD;
+  --bs-btn-hover-border-color: #DDDDDD;
+  --bs-btn-focus-shadow-rgb: 60,153,110;
+  --bs-btn-active-color: #212529;
+  --bs-btn-active-bg: #DDDDDD;
+  --bs-btn-active-border-color: #DDDDDD;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #212529;
+  --bs-btn-disabled-bg: #f1f2f3;
+  --bs-btn-disabled-border-color: #f1f2f3;
 }

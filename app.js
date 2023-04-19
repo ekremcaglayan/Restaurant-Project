@@ -21,3 +21,10 @@ app.get("/:navigation", function(req, res){
 app.listen(3000, () => {
   console.log('Server has been started on port 3000.');
 });
+
+app.post("/test", function(req,res){
+  console.log(req.body.baseFood);
+  console.log(req.body.specFood);
+  console.log(req.body.priority);
+  res.redirect("/");
+});
