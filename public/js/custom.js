@@ -68,3 +68,10 @@ $(".client_owl-carousel").owlCarousel({
         }
     }
 });
+
+$(document).ready(function() {
+    $("#searchButton").click(function() {
+      $("#baseFood").focus();
+    });
+  });
+

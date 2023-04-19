@@ -5,14 +5,14 @@
             <div class="text-center">
                 <h1 class="search-h1">Ne Yemek İstersin?</h1>
                     <div class="user_option">
-                        <a class="order_online" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <a id="searchButton" class="order_online" data-toggle="collapse" href="#collapseSearch" role="button" aria-expanded="false" aria-controls="collapseExample">
                             Aramaya Başla
                         </a>
                     </div>
                     <form action="/test" method="post">
                         <div class="row justify-content-center collapse" id="collapseSearch">
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
-                                <select name="baseFood" class="w-100 selectpicker" data-style="btn-select" multiple title="Yemek Seçiniz...">
+                                <select name="baseFood" id="baseFood" class="w-100 selectpicker" data-style="btn-select" multiple title="Yemek Seçiniz...">
                                     <optgroup label="Et">
                                         <option>Kırmızı Et</option>
                                         <option>Tavuk</option>
