@@ -7,7 +7,6 @@
 
 // getYear();
 
-
 // isotope js
 $(window).on('load', function () {
     $('.filters_menu li').click(function () {
@@ -69,9 +68,21 @@ $(".client_owl-carousel").owlCarousel({
     }
 });
 
-$(document).ready(function() {
-    $("#searchButton").click(function() {
-      $("#baseFood").focus();
+/*$(function(){
+    var select = $('#baseFood').selectpicker();
+ 
+    select.on('shown.bs.select', function (e) {
+     alert('shown');
     });
-  });
+ 
+    select.on('changed.bs.select', function (e) {
+     alert('changed');
+    });
+ });*/
 
+
+/*$('#searchButton').click(function(){
+    setTimeout(function() {
+        $("#baseFood").selectpicker("toggle");
+      }, 100);
+});*/
