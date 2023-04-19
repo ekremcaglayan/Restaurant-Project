@@ -1120,3 +1120,8 @@ option{
   --bs-btn-disabled-bg: #f1f2f3;
   --bs-btn-disabled-border-color: #f1f2f3;
 }
+
+.mobile_user_option{ /* GİRİŞ YAP BUTONU MOBİL ORTALANDI */
+  display: -webkit-box;
+  display: flex;
+}
