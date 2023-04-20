@@ -905,7 +905,8 @@ a:focus {
 .footer_section {
   background-color: #222831;
   color: #ffffff;
-  padding: 75px 0 40px 0;
+  /*padding: 75px 0 40px 0;*/
+  padding: 20px 0 20px 0; /*elif*/
   text-align: center;
 }
 
@@ -925,7 +926,8 @@ a:focus {
 }
 
 .footer_section .footer-col {
-  margin-bottom: 30px;
+  /*margin-bottom: 30px;*/
+  margin-bottom: 10px; /*elif*/
 }
 
 .footer_section .footer_contact .contact_link_box {

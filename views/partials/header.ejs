@@ -90,36 +90,68 @@
                   <label for="loginEmail" class="form-label">Email adresi</label>
                   <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com">
                 </div>
-                <div class="mb-3">
-                  <label for="loginPassword" class="form-label">Şifre</label>
-                  <input type="password" class="form-control" id="loginPassword" placeholder="Şifre">
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Giriş</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Kayıt</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                            <form>
+                                <div class="mt-3">
+                                    <label for="loginEmail" class="form-label">Email adresi</label>
+                                    <input type="email" class="form-control" id="loginEmail" placeholder="örnek_email@gmail.com">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="loginPassword" class="form-label">Şifre</label>
+                                    <input type="password" class="form-control" id="loginPassword" placeholder="Şifre">
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-primary">Giriş Yap</button>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                            <form>
+                                <div class="row mt-2">
+                                    <div class="col-md-6">
+                                        <label for="name" class="form-label">Ad</label>
+                                        <input type="text" class="form-control" id="name" placeholder="Ad" value="">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="surname" class="form-label">Soyad</label>
+                                        <input type="text" class="form-control" id="surname" placeholder="Soyad" value="">
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <label for="registerEmail" class="form-label">Email adresi</label>
+                                    <input type="email" class="form-control" id="registerEmail" placeholder="örnek_email@gmail.com">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="registerPassword" class="form-label">Şifre</label>
+                                    <input type="password" class="form-control" id="registerPassword" placeholder="Şifre">
+                                </div>
+                                <div class="mt-3">
+                                    <label for="registerPasswordConfirm" class="form-label">Şifre Doğrulama</label>
+                                    <input type="password" class="form-control" id="registerPasswordConfirm" placeholder="Şifre Doğrulama">
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Giriş Yap</button>
-              </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                </div>
             </div>
-            <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-              <form>
-                <div class="mb-3">
-                  <label for="registerEmail" class="form-label">Email adresi</label>
-                  <input type="email" class="form-control" id="registerEmail" placeholder="name@example.com">
-                </div>
-                <div class="mb-3">
-                  <label for="registerPassword" class="form-label">Şifre</label>
-                  <input type="password" class="form-control" id="registerPassword" placeholder="Şifre">
-                </div>
-                <div class="mb-3">
-                  <label for="registerPasswordConfirm" class="form-label">Şifre Doğrulama</label>
-                  <input type="password" class="form-control" id="registerPasswordConfirm" placeholder="Şifre Doğrulama">
-                </div>
-                <button type="submit" class="btn btn-primary">Kayıt Ol</button>
-              </form>
-            </div>
-          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
         </div>
       </div>
     </div>
-  </div>
 <!-- end kayit/giris section -->
