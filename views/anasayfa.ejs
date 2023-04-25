@@ -12,7 +12,7 @@
                     <form action="/test" method="post">
                         <div class="row justify-content-center collapse" id="collapseSearch">
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
-                                <select name="baseFood" id="baseFood" class="w-100 selectpicker" data-style="btn-select" multiple title="Yemek Seçiniz...">
+                                <select id="baseFood" class="w-100 selectpicker" data-style="btn-select" multiple title="Yemek Seçiniz..." data-dropup-auto="false">
                                     <optgroup label="Et">
                                         <option>Kırmızı Et</option>
                                         <option>Tavuk</option>
@@ -25,14 +25,14 @@
                                 </select>
                             </div>
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
-                                <select name="specFood" class="w-100 selectpicker" data-style="btn-select" multiple title="Genel Yemek Seçiniz...">
+                                <select disabled name="specFood" id="specFood" class="w-100 selectpicker" data-style="btn-select" multiple title="Genel Yemek Seçiniz..." data-dropup-auto="false">
                                     <option>Burger</option>
                                     <option>Schnitzel</option>
                                     <option>Izgara</option>
                                 </select>
                             </div>
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
-                                <select name="priority" class="w-100 selectpicker" data-style="btn-select" multiple title="Restoranda sizin için ne önemli?">
+                                <select name="priority" class="w-100 selectpicker" data-style="btn-select" multiple title="Restoranda sizin için ne önemli?" data-dropup-auto="false">
                                     <option>Lezzet</option>
                                     <option>Fiyat</option>
                                     <option>Hız</option>
