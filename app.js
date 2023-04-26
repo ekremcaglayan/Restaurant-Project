@@ -164,17 +164,6 @@ app.post('/register', async (req, res) => {
   }
 });
 
-
-app.get("/profile", function(req,res){
-  const user = req.session.user;
-  console.log(user);
-  if(user){
-    res.render("profile", {title:'Profile - '+user.name, user: user})
-  }else{
-    //res.redirect("/");
-  }
-});
-
 app.get("/:navigation", function(req, res){
   const user = req.session.user;
   const navigation = req.params.navigation;
