@@ -3,12 +3,20 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
 const bodyParser = require('body-parser');
+const { CyclicSessionStore } = require("@cyclic.sh/session-store");
 
 const app = express();
 app.use(bodyParser.json());
 
+const options = {
+  table: {
+    name: process.env.CYCLIC_DB,
+  }
+};
+
 app.use(
   session({
+    store: new CyclicSessionStore(options),
     secret: "mazmegs",
     resave: false,
     saveUninitialized: false,

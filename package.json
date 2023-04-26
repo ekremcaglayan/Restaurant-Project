@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/semdin/Restaurant-Project#readme",
   "dependencies": {
+    "@cyclic.sh/session-store": "^0.0.17",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "ejs": "^3.1.9",
