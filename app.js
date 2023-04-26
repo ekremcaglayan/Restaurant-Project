@@ -3,19 +3,19 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 
 const app = express();
 app.use(bodyParser.json());
 
-app.use(
-  session({
-    secret: "mazmegs",
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 3600000, secure: true, sameSite: 'none' }
-  })
-);
+app.use(cookieParser('mazmegs'));
+app.use(session({
+  secret: 'mazmegs',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
 
 app.listen(3000, () => {
   console.log('Server has been started on port 3000.');
