@@ -12,6 +12,7 @@ app.use(
     secret: "mazmegs",
     resave: false,
     saveUninitialized: false,
+    cookie: { maxAge: 3600000 }
   })
 );
 
