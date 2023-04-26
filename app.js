@@ -3,29 +3,17 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-
-const https = require('https');
-const fs = require('fs');
-
-const options = {
-  key: fs.readFileSync('path/to/key.pem'),
-  cert: fs.readFileSync('path/to/cert.pem')
-};
-
-
 
 const app = express();
 app.use(bodyParser.json());
 
-app.use(cookieParser('mazmegs'));
-app.use(session({
-  secret: 'mazmegs',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
-  
-}));
+app.use(
+  session({
+    secret: "mazmegs",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.listen(3000, () => {
   console.log('Server has been started on port 3000.');
@@ -35,8 +23,6 @@ mongoose
   .connect("mongodb+srv://mehmetsemdinaktay:8e5GaYlmmOW8XD3y@cluster0.huw09px.mongodb.net/mazmegs", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    ssl: true,
-    sslValidate: true,
   })
   .then(() => console.log("MongoDB has been started on port 27017"))
   .catch((err) => console.error("MongoDB error", err));
@@ -136,7 +122,6 @@ app.post('/login', async (req, res) => {
   }
   
   // Başarılı giriş durumunda
-  req.session.isLoggedIn = true;
   req.session.user = user;
   return res.json({ message: 'Başarıyla giriş yapıldı.<br>Yönlendiriliyorsunuz...' });
 });
@@ -176,6 +161,16 @@ app.post('/register', async (req, res) => {
       // Handle errors
       console.error(err);
       return res.status(500).json({ message: 'Kayıt yapılırken bir hata oluştu.' });
+  }
+});
+
+
+app.get("/profile", function(req,res){
+  const user = req.session.user;
+  if(user){
+    res.render("profile", {title:'Profile - '+user.name, user: user})
+  }else{
+    res.redirect("/");
   }
 });
 
