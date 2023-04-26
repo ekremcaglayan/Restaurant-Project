@@ -5,6 +5,15 @@ const bcrypt = require("bcrypt");
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
+const https = require('https');
+const fs = require('fs');
+
+const options = {
+  key: fs.readFileSync('path/to/key.pem'),
+  cert: fs.readFileSync('path/to/cert.pem')
+};
+
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -14,11 +23,8 @@ app.use(session({
   secret: 'mazmegs',
   resave: false,
   saveUninitialized: true,
-  cookie: {
-    secure: true,
-    sameSite: 'None',
-    maxAge: 24 * 60 * 60 * 1000
-}
+  cookie: { secure: false }
+  
 }));
 
 app.listen(3000, () => {
@@ -174,7 +180,6 @@ app.post('/register', async (req, res) => {
 });
 
 app.get("/:navigation", function(req, res){
-  console.log(req.session.isLoggedIn);
   const user = req.session.user;
   const navigation = req.params.navigation;
   res.render(navigation, {title: navigation, user: user});
