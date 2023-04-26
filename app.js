@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 const bodyParser = require('body-parser');
 
 const app = express();
-app.enable('trust proxy');
 app.use(bodyParser.json());
 
 app.use(
@@ -13,7 +12,7 @@ app.use(
     secret: "mazmegs",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 3600000 }
+    cookie: { maxAge: 3600000, secure: true }
   })
 );
 
