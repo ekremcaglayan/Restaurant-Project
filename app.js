@@ -7,8 +7,6 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 
-var user = "";
-
 app.use(
   session({
     secret: "mazmegs",
@@ -110,7 +108,7 @@ app.use(express.urlencoded({
   app.use(express.static("public"));
 
 app.get('/', (req, res) => {
-  user = req.session.user;
+  const user = req.session.user;
   res.render('anasayfa', {title: 'Anasayfa', user: user});
 });
 
@@ -168,16 +166,17 @@ app.post('/register', async (req, res) => {
 
 
 app.get("/profile", function(req,res){
-  user = req.session.user;
+  const user = req.session.user;
+  console.log(user);
   if(user){
     res.render("profile", {title:'Profile - '+user.name, user: user})
   }else{
-    res.redirect("/");
+    //res.redirect("/");
   }
 });
 
 app.get("/:navigation", function(req, res){
-  user = req.session.user;
+  const user = req.session.user;
   const navigation = req.params.navigation;
   res.render(navigation, {title: navigation, user: user});
 });
