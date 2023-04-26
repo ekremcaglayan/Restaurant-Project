@@ -14,7 +14,11 @@ app.use(session({
   secret: 'mazmegs',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false }
+  cookie: {
+    secure: true,
+    sameSite: 'None',
+    maxAge: 24 * 60 * 60 * 1000
+}
 }));
 
 app.listen(3000, () => {
