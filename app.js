@@ -126,6 +126,7 @@ app.post('/login', async (req, res) => {
   }
   
   // Başarılı giriş durumunda
+  req.session.isLoggedIn = true;
   req.session.user = user;
   return res.json({ message: 'Başarıyla giriş yapıldı.<br>Yönlendiriliyorsunuz...' });
 });
@@ -169,6 +170,7 @@ app.post('/register', async (req, res) => {
 });
 
 app.get("/:navigation", function(req, res){
+  console.log(req.session.isLoggedIn);
   const user = req.session.user;
   const navigation = req.params.navigation;
   res.render(navigation, {title: navigation, user: user});
