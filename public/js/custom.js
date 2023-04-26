@@ -90,3 +90,75 @@ $(function(){
         $("#baseFood").selectpicker("toggle");
       }, 100);
 });*/
+
+document.querySelector('#login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.querySelector('#loginEmail').value;
+    const password = document.querySelector('#loginPassword').value;
+
+    const response = await fetch('/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+        // Başarılı giriş durumunda
+
+        // div elementine erişim
+        const myDiv = document.querySelector('#login-success-error');
+
+        // tüm sınıf adlarını kaldır
+        const classes = myDiv.classList;
+        while (classes.length > 0) {
+        classes.remove(classes.item(0));
+        }
+        myDiv.classList.add('text-success');
+        myDiv.innerHTML = data.message;
+        setTimeout(() => {
+            window.location.href = '/';
+          }, 2000); // 2 saniye bekle
+        //$('#exampleModal').modal('hide');
+    } else {
+        // Başarısız giriş durumunda
+        document.querySelector('#login-success-error').classList.remove();
+        document.querySelector('#login-success-error').classList.add('text-danger');
+        document.querySelector('#login-success-error').innerHTML = data.message;
+    }
+});
+
+document.querySelector('#register-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.querySelector('#name').value;
+    const surname = document.querySelector('#surname').value;
+    const email = document.querySelector('#registerEmail').value;
+    const password = document.querySelector('#registerPassword').value;
+    
+    const response = await fetch('/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, surname, email, password })
+    });
+    
+    const data = await response.json();
+    if (response.ok) {
+        // Successful registration
+        const myDiv = document.querySelector('#register-success-error');
+        const classes = myDiv.classList;
+        while (classes.length > 0) {
+            classes.remove(classes.item(0));
+        }
+        myDiv.classList.add('text-success');
+        myDiv.innerHTML = data.message;
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 2000);
+    } else {
+        // Failed registration
+        document.querySelector('#register-success-error').classList.remove();
+        document.querySelector('#register-success-error').classList.add('text-danger');
+        document.querySelector('#register-success-error').innerHTML = data.message;
+    }
+});

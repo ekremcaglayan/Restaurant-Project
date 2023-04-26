@@ -55,10 +55,23 @@
                     <li class="nav-item">
                         <a class="nav-link" href="restoranlar">Restoranlar</a>
                     </li>
-                </ul>   
-                <div class="user_option mobile_user_option">
-                    <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal" class="order_online ">Giriş Yap</a>
-                </div>
+                </ul>
+                <div class="user_option mobile_user_option dropdown">
+                    <% if (user) { %>
+                      <button class="order_online dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <%= user.name + " " + user.surname %>
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="/profile">Profil</a>
+                        <a class="dropdown-item" href="/logout">Çıkış Yap</a>
+                      </div>
+                    <% } else { %>
+                      <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal" class="order_online">Giriş Yap</a>
+                    <% } %>
+                  </div>
+                  
+                  
+                  
             </div>
         </nav>
     </div>
@@ -85,45 +98,47 @@
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-                            <form>
+                            <form id="login-form">
                                 <div class="mt-3">
                                     <label for="loginEmail" class="form-label">Email adresi</label>
-                                    <input type="email" class="form-control" id="loginEmail" placeholder="örnek_email@gmail.com">
+                                    <input type="email" name="email" class="form-control" id="loginEmail" placeholder="example@mail.com" required>
                                 </div>
                                 <div class="mt-3">
                                     <label for="loginPassword" class="form-label">Şifre</label>
-                                    <input type="password" class="form-control" id="loginPassword" placeholder="Şifre">
+                                    <input type="password" name="password" class="form-control" id="loginPassword" placeholder="Şifre" required>
                                 </div>
                                 <br>
                                 <button type="submit" class="btn btn-primary">Giriş Yap</button>
+                                <div id="login-success-error"></div>
                             </form>
                         </div>
                         <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-                            <form>
+                            <form id="register-form">
                                 <div class="row mt-2">
                                     <div class="col-md-6">
                                         <label for="name" class="form-label">Ad</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Ad" value="">
+                                        <input type="text" name="name" class="form-control" id="name" placeholder="Ad" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="surname" class="form-label">Soyad</label>
-                                        <input type="text" class="form-control" id="surname" placeholder="Soyad" value="">
+                                        <input type="text" name="surname" class="form-control" id="surname" placeholder="Soyad" required>
                                     </div>
                                 </div>
                                 <div class="mt-3">
                                     <label for="registerEmail" class="form-label">Email adresi</label>
-                                    <input type="email" class="form-control" id="registerEmail" placeholder="örnek_email@gmail.com">
+                                    <input type="email" name="email" class="form-control" id="registerEmail" placeholder="example@mail.com" required>
                                 </div>
                                 <div class="mt-3">
                                     <label for="registerPassword" class="form-label">Şifre</label>
-                                    <input type="password" class="form-control" id="registerPassword" placeholder="Şifre">
+                                    <input type="password" name="password" class="form-control" id="registerPassword" placeholder="Şifre" required>
                                 </div>
-                                <div class="mt-3">
+                                <!--<div class="mt-3">
                                     <label for="registerPasswordConfirm" class="form-label">Şifre Doğrulama</label>
                                     <input type="password" class="form-control" id="registerPasswordConfirm" placeholder="Şifre Doğrulama">
-                                </div>
+                                </div>-->
                                 <br>
                                 <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+                                <div id="register-success-error"></div>
                             </form>
                         </div>
                     </div>
@@ -134,4 +149,5 @@
             </div>
         </div>
     </div>
+
 <!-- end kayit/giris section -->

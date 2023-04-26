@@ -2,8 +2,10 @@ const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
+const bodyParser = require('body-parser');
 
 const app = express();
+app.use(bodyParser.json());
 
 app.use(
   session({
@@ -88,6 +90,11 @@ mongoose
         }
       ]
   });
+
+  userSchema.methods.matchPassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+  };
+  
   
   const User = mongoose.model("User", userSchema);
   const Food = mongoose.model('Food', foodSchema);
@@ -101,13 +108,76 @@ app.use(express.urlencoded({
   app.use(express.static("public"));
 
 app.get('/', (req, res) => {
-  res.render('anasayfa', {title: 'Anasayfa'});
+  const user = req.session.user;
+  res.render('anasayfa', {title: 'Anasayfa', user: user});
+});
+
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  // Giriş bilgilerini doğrulayın
+  const user = await User.findOne({email });
+  if (!user || !(await user.matchPassword(password))) {
+    return res.status(401).json({ message: 'Email veya şifre hatalı!' });
+  }
+  
+  // Başarılı giriş durumunda
+  req.session.user = user;
+  return res.json({ message: 'Başarıyla giriş yapıldı.<br>Yönlendiriliyorsunuz...' });
+});
+
+
+
+// kullanıcının oturumunu sonlandırdığınızda session'dan kullanıcı bilgilerini silin
+app.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.redirect('/');
+    }
+  });
+});
+
+// Kayıt işlevi
+app.post('/register', async (req, res) => {
+  const { name, surname, email, password } = req.body;
+  try {
+    // Check if the user already exists
+    const user = await User.findOne({ email });
+    if (user) {
+        return res.status(409).json({ message: 'Bu email zaten kullanımda!' });
+    }
+
+    // Create a new user
+    const newUser = new User({ name, surname, email });
+    newUser.password = await bcrypt.hash(password, 10);
+    await newUser.save();
+
+    // Send a success response
+    req.session.user = newUser;
+    return res.status(200).json({ message: 'Başarıyla kayıt oluşturuldu<br>Yönlendiriliyorsunuz...' });
+  } catch (err) {
+      // Handle errors
+      console.error(err);
+      return res.status(500).json({ message: 'Kayıt yapılırken bir hata oluştu.' });
+  }
+});
+
+
+app.get("/profile", function(req,res){
+  const user = req.session.user;
+  if(req.session.user){
+    res.render("profile", {title:'Profile - '+user.name, user: user})
+  }else{
+    res.redirect("/");
+  }
 });
 
 app.get("/:navigation", function(req, res){
-
+  const user = req.session.user;
   const navigation = req.params.navigation;
-  res.render(navigation, {title: navigation});
+  res.render(navigation, {title: navigation, user: user});
 });
 
 app.post("/test", function(req,res){
