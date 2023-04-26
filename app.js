@@ -20,7 +20,7 @@ app.listen(3000, () => {
 });
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/mazmegs", {
+  .connect("mongodb+srv://mehmetsemdinaktay:8e5GaYlmmOW8XD3y@cluster0.huw09px.mongodb.net/mazmegs", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
