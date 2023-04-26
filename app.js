@@ -4,6 +4,7 @@ const session = require("express-session");
 const bcrypt = require("bcrypt");
 const bodyParser = require('body-parser');
 
+
 const app = express();
 app.use(bodyParser.json());
 
@@ -12,7 +13,7 @@ app.use(
     secret: "mazmegs",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 3600000, secure: true }
+    cookie: { maxAge: 3600000, secure: true, sameSite: 'none' }
   })
 );
 
@@ -24,6 +25,8 @@ mongoose
   .connect("mongodb+srv://mehmetsemdinaktay:8e5GaYlmmOW8XD3y@cluster0.huw09px.mongodb.net/mazmegs", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    ssl: true,
+    sslValidate: true,
   })
   .then(() => console.log("MongoDB has been started on port 27017"))
   .catch((err) => console.error("MongoDB error", err));
