@@ -137,13 +137,8 @@ app.post('/login', async (req, res) => {
 
 // kullanıcının oturumunu sonlandırdığınızda session'dan kullanıcı bilgilerini silin
 app.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.redirect('/');
-    }
-  });
+  req.session = null;
+  res.redirect("/");
 });
 
 // Kayıt işlevi
@@ -174,9 +169,14 @@ app.post('/register', async (req, res) => {
 
 app.get("/profile", function(req,res){
   const user = req.session.user;
-  if(user){
+  console.log(user.userType);
+  if(user.userType=="user"){
     res.render("profile", {title:'Profile - '+user.name, user: user})
-  }else{
+  }
+  else if(user.userType=="restaurant"){
+    res.render("restaurantProfile", {title:'Restaurant Profile - '+user.name, user: user})
+  }
+  else{
     res.redirect("/");
   }
 });
