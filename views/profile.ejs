@@ -1,0 +1,43 @@
+<%- include('partials/header') %>
+    <!-- profile section -->
+    <div class="container rounded bg-white mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-4 border-right">
+                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                    <h1>Profil Bilgileriniz - 
+                        
+                        <% if (user) { %>
+                            <%=user.name%>
+                        <%}%>
+                    
+                    
+                    </h1>
+                    <br>
+                    <span class="font-weight-bold">Ad: Mazmegs</span>
+                    <span class="font-weight-bold">Soyad: Mazmegs</span>
+                    <span class="font-weight-bold">Telefon numarası: 0555 555 55 55</span>
+                    <br>
+                    <span class="text-black-50">E-mail: örnek_email@gmail.com</span>
+                    <span> </span>
+                </div>
+            </div>
+            <div class="col-md-8 border-right">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Profil Ayarları</h4>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6"><label class="labels">Ad</label><input type="text" class="form-control" placeholder="Ad" value=""></div>
+                        <div class="col-md-6"><label class="labels">Soyad</label><input type="text" class="form-control" value="" placeholder="Soyad"></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-6"><label class="labels">Telefon numarası</label><input type="text" class="form-control" placeholder="Telefon numarası giriniz" value=""></div>
+                        <div class="col-md-6"><label class="labels">E-mail</label><input type="text" class="form-control" placeholder="E-mail adresi giriniz" value=""></div>
+                    </div>
+                    <div class="mt-5 text-center"><button class="btn btn-dark btn-lg profile-button" type="button">Kaydet</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end profile section -->
+<%- include('partials/footer') %>
