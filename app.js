@@ -3,17 +3,29 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
 const bodyParser = require('body-parser');
+const cookieSession = require('cookie-session');
+
 
 const app = express();
-app.use(bodyParser.json());
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.set("view engine", "ejs");
+app.use(express.static("public"));
 
 app.use(
-  session({
-    secret: "mazmegs",
-    resave: false,
-    saveUninitialized: false,
+  cookieSession({
+    name: 'session',
+    keys: ['key1', 'key2'],
+    secret: 'mazmegs',
+    cookie: {
+      secure: true,
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    },
   })
 );
+
 
 app.listen(3000, () => {
   console.log('Server has been started on port 3000.');
@@ -101,11 +113,6 @@ mongoose
   const CategoryFood = mongoose.model('CategoryFood', categoryFoodSchema);
   const BaseFood = mongoose.model('BaseFood', baseFoodSchema);
 
-app.use(express.urlencoded({
-    extended: false
-  })); // Not using bodyParser, using Express in-built body parser instead
-  app.set("view engine", "ejs");
-  app.use(express.static("public"));
 
 app.get('/', (req, res) => {
   const user = req.session.user;
