@@ -115,8 +115,13 @@ mongoose
 
 
 app.get('/', (req, res) => {
-  const user = req.session.user;
-  res.render('anasayfa', {title: 'Anasayfa', user: user});
+
+  BaseFood.find().populate('categories')
+  .then((baseFoods) => {
+    const user = req.session.user;
+    res.render('anasayfa', {title: 'Anasayfa', user: user, baseFoods: baseFoods});
+  })
+  .catch((err) => console.log(err));
 });
 
 app.post('/login', async (req, res) => {
@@ -192,4 +197,36 @@ app.post("/test", function(req,res){
   console.log(req.body.specFood);
   console.log(req.body.priority);
   res.redirect("/");
+});
+
+
+app.get('/base/:baseIds/categories', (req, res) => {
+  const baseIds = req.params.baseIds.split(","); // get an array of base food IDs
+
+  CategoryFood.find({ bases: { $in: baseIds } })
+    .then(categories => {
+      res.json(categories);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send("Error retrieving categories");
+    });
+});
+
+app.get('/category/:categoryIds/:baseFoodIds/foods', (req, res) => {
+
+  const categoryIds = req.params.categoryIds.split(",");
+  const baseFoodIds = req.params.baseFoodIds.split(",");
+
+  Food.find({ 
+    category: { $in: categoryIds },
+    base: { $in: baseFoodIds }
+  })
+  .then(foods => {
+    res.json(foods);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).send("Error retrieving foods");
+  });
 });

@@ -68,21 +68,21 @@ $(".client_owl-carousel").owlCarousel({
     }
 });
 
-$(function(){
-    var selectBase = $('#baseFood').selectpicker();
-    var selectSpec = $('#specFood').selectpicker();
+/*$(function(){
+    var selectBase = $('#base-select').selectpicker();
+    var selectSpec = $('#category-select').selectpicker();
 
     selectBase.on('shown.bs.select', function (e) {
      //alert('shown');
     });
  
     selectBase.on('changed.bs.select', function (e) {
-        selectSpec.prop('disabled', false);
-        options = "<option value=test> test </option>";
-        selectSpec.empty().append(options);
+        //selectSpec.prop('disabled', false);
+        //options = "<option value=test> test </option>";
+        //selectSpec.empty().append(options);
         selectSpec.selectpicker('refresh');
     });
- });
+ });*/
 
 
 /*$('#searchButton').click(function(){
