@@ -162,3 +162,59 @@ document.querySelector('#register-form').addEventListener('submit', async (e) =>
         document.querySelector('#register-success-error').innerHTML = data.message;
     }
 });
+
+
+function onBaseSelectChange() {
+    const baseSelect = document.getElementById("base-select");
+    const selectedBaseIds = [...baseSelect.selectedOptions].map(option => option.value); // get an array of selected base food IDs
+
+    const categorySelect = document.getElementById("category-select");
+    const foodSelect = document.getElementById("food-select");
+
+    // disable the category and food selects while loading new data
+    categorySelect.disabled = true;
+    foodSelect.disabled = true;
+
+    // send an AJAX request to get the categories for the selected base foods
+    fetch(`/base/${selectedBaseIds.join(",")}/categories`)
+      .then(response => response.json())
+      .then(categories => {
+        // populate the category select with the retrieved categories
+        categorySelect.innerHTML = `${categories.map(category => `<option value="${category._id}">${category.name}</option>`).join("")}`;
+        // enable the category select
+        categorySelect.disabled = false;
+        $('#category-select').selectpicker('destroy');
+        $('#category-select').selectpicker('render');
+      })
+      .catch(error => console.log(error));
+  }
+
+
+  function onCategorySelectChange() {
+
+    const baseSelect = document.getElementById("base-select");
+    const selectedBaseIds = [...baseSelect.selectedOptions].map(option => option.value); // get an array of selected base food IDs
+
+    const categorySelect = document.getElementById("category-select");
+    const selectedCategoryIds = [...categorySelect.selectedOptions].map(option => option.value); // get an array of selected base food IDs
+
+    const foodSelect = document.getElementById("food-select");
+
+    // disable the category and food selects while loading new data
+    //categorySelect.disabled = true;
+    foodSelect.disabled = true;
+
+    // send an AJAX request to get the categories for the selected base foods
+    fetch(`/category/${selectedCategoryIds.join(",")}/${selectedBaseIds.join(",")}/foods`)
+      .then(response => response.json())
+      .then(foods => {
+        // populate the category select with the retrieved categories
+        foodSelect.innerHTML = `${foods.map(food => `<option value="${food._id}">${food.name}</option>`).join("")}`;
+
+        // enable the category select
+        foodSelect.disabled = false;
+        $('#food-select').selectpicker('destroy');
+        $('#food-select').selectpicker('render');
+      })
+      .catch(error => console.log(error));
+  }

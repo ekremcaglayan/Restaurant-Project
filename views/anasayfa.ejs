@@ -20,12 +20,10 @@
                             </div>
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
                                 <select id="category-select" class="w-100 selectpicker" data-style="btn-select" title="Genel Yemek Seçiniz..." data-dropup-auto="false" onchange="onCategorySelectChange()" multiple >
-                                    <option value="">-- Select a category --</option>
                                 </select>
                             </div>
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
                                 <select id="food-select" class="w-100 selectpicker" data-style="btn-select" multiple title="Restoranda sizin için ne önemli?" data-dropup-auto="false" >
-                                    <option value="">-- Select food --</option>
                                 </select>
                             </div>
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
@@ -99,87 +97,4 @@
         </div>
     </section>
     <!-- end restaurant section -->
-
-
-    <script>
-        const baseSelect = document.getElementById("base-select");
-        const categorySelect = document.getElementById("category-select");
-        const foodSelect = document.getElementById("food-select");
-      
-        function onBaseSelectChange() {
-          const baseSelect = document.getElementById("base-select");
-          const selectedBaseIds = [...baseSelect.selectedOptions].map(option => option.value); // get an array of selected base food IDs
-      
-          const categorySelect = document.getElementById("category-select");
-          const foodSelect = document.getElementById("food-select");
-      
-          // disable the category and food selects while loading new data
-          categorySelect.disabled = true;
-          foodSelect.disabled = true;
-      
-          // send an AJAX request to get the categories for the selected base foods
-          fetch(`/base/${selectedBaseIds.join(",")}/categories`)
-            .then(response => response.json())
-            .then(categories => {
-              // populate the category select with the retrieved categories
-              categorySelect.innerHTML = `<option value="">-- Select a category --</option>${categories.map(category => `<option value="${category._id}">${category.name}</option>`).join("")}`;
-              console.log(categorySelect);
-              // enable the category select
-              categorySelect.disabled = false;
-              $('#category-select').selectpicker('refresh');
-            })
-            .catch(error => console.log(error));
-        }
-      
-      
-        function onCategorySelectChange() {
-      
-          const baseSelect = document.getElementById("base-select");
-          const selectedBaseIds = [...baseSelect.selectedOptions].map(option => option.value); // get an array of selected base food IDs
-      
-          const categorySelect = document.getElementById("category-select");
-          const selectedCategoryIds = [...categorySelect.selectedOptions].map(option => option.value); // get an array of selected base food IDs
-      
-          const foodSelect = document.getElementById("food-select");
-      
-          // disable the category and food selects while loading new data
-          //categorySelect.disabled = true;
-          foodSelect.disabled = true;
-      
-          // send an AJAX request to get the categories for the selected base foods
-          fetch(`/category/${selectedCategoryIds.join(",")}/${selectedBaseIds.join(",")}/foods`)
-            .then(response => response.json())
-            .then(foods => {
-              // populate the category select with the retrieved categories
-              foodSelect.innerHTML = `<option value="">-- Select a foods --</option>${foods.map(food => `<option value="${food._id}">${food.name}</option>`).join("")}`;
-      
-              // enable the category select
-              foodSelect.disabled = false;
-            })
-            .catch(error => console.log(error));
-      
-          /*// foodSelect'i sıfırla
-          foodSelect.innerHTML = '<option value="">-- Select a food --</option>';
-          foodSelect.disabled = true;
-      
-          // seçilen category'nin id'sini al
-          const categoryId = categorySelect.value;
-      
-          // categoryId boş değilse, ilgili yemekleri foodSelect'e ekle
-          if (categoryId) {
-            fetch(`/category/${categoryId}/foods`)
-              .then((response) => response.json())
-              .then((foods) => {
-                foods.forEach((food) => {
-                  const option = document.createElement('option');
-                  option.value = food._id;
-                  option.text = food.name;
-                  foodSelect.add(option);
-                });
-                foodSelect.disabled = false;
-              })
-              .catch((err) => console.log(err));
-          }*/
-        }
-      </script>
 <%- include('partials/footer') %>

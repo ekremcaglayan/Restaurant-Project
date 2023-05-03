@@ -72,14 +72,14 @@ mongoose
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
     },
-    category: {
+    category: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'CategoryFood'
-    },
-    base: {
+    }],
+    base: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'BaseFood'
-    }
+    }]
   });
   
   const categoryFoodSchema = new mongoose.Schema({
@@ -186,12 +186,6 @@ app.get("/profile", function(req,res){
   }
 });
 
-app.get("/:navigation", function(req, res){
-  const user = req.session.user;
-  const navigation = req.params.navigation;
-  res.render(navigation, {title: navigation, user: user});
-});
-
 app.post("/test", function(req,res){
   console.log(req.body.baseFood);
   console.log(req.body.specFood);
@@ -213,6 +207,9 @@ app.get('/base/:baseIds/categories', (req, res) => {
     });
 });
 
+
+
+
 app.get('/category/:categoryIds/:baseFoodIds/foods', (req, res) => {
 
   const categoryIds = req.params.categoryIds.split(",");
@@ -229,4 +226,11 @@ app.get('/category/:categoryIds/:baseFoodIds/foods', (req, res) => {
     console.log(err);
     res.status(500).send("Error retrieving foods");
   });
+});
+
+
+app.get("/:navigation", function(req, res){
+  const user = req.session.user;
+  const navigation = req.params.navigation;
+  res.render(navigation, {title: navigation, user: user});
 });
