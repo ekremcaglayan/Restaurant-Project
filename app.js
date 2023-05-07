@@ -59,8 +59,18 @@ mongoose
     },
     userType: {
       type: String,
+      required: true,
       default: 'user',
+    },
+    restaurant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Restaurant',
     }
+  });
+
+  const restaurantSchema = new mongoose.Schema({
+      //burasi yapilacaks
+
   });
   
   
@@ -112,6 +122,28 @@ mongoose
   const Food = mongoose.model('Food', foodSchema);
   const CategoryFood = mongoose.model('CategoryFood', categoryFoodSchema);
   const BaseFood = mongoose.model('BaseFood', baseFoodSchema);
+  const Restaurant = mongoose.model('Restaurant', restaurantSchema);
+
+
+
+  //yeni column ama object olarak
+  /*User.updateMany({}, { $set: { restaurant: new mongoose.Types.ObjectId() } })
+  .then(() => {
+    console.log('Users updated successfully.');
+  })
+  .catch((err) => {
+    console.error(err);
+  });*/
+  
+
+//database add new column
+ /* User.updateMany({}, {$set: {restaurant: ""}})
+  .then(result => {
+    console.log(result);
+  })
+  .catch(err => {
+    console.log(err);
+  });*/
 
 
 app.get('/', (req, res) => {
@@ -174,7 +206,6 @@ app.post('/register', async (req, res) => {
 
 app.get("/profile", function(req,res){
   const user = req.session.user;
-  console.log(user.userType);
   if(user.userType=="user"){
     res.render("profile", {title:'Profile - '+user.name, user: user})
   }
@@ -230,7 +261,10 @@ app.get('/category/:categoryIds/:baseFoodIds/foods', (req, res) => {
 
 
 app.get("/:navigation", function(req, res){
-  const user = req.session.user;
+  
   const navigation = req.params.navigation;
-  res.render(navigation, {title: navigation, user: user});
+  if(navigation != "favicon.ico"){
+    const user = req.session.user;
+    res.render(navigation, {title: navigation, user: user});
+  }
 });
