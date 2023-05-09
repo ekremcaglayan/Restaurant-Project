@@ -1131,3 +1131,10 @@ option{
 /*.navbar_brand_mobile{ /* MAZMEGS YAZISI ORTALANDI
   margin: auto;
 } */
+
+.dropdown-style {
+  /* margin-left: 25%; */
+  left: 50% !important;
+  right: auto !important;
+  transform: translate(-50%, 0) !important;
+}

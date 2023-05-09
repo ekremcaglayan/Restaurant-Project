@@ -49,10 +49,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav  mx-auto ">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/">Anasayfa <span class="sr-only">(current)</span></a>
+                    <li class="nav-item <%= title === 'Anasayfa' ? 'active' : '' %>">
+                        <a class="nav-link" href="/">Anasayfa</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item <%= title === 'restoranlar' ? 'active' : '' %>">
                         <a class="nav-link" href="restoranlar">Restoranlar</a>
                     </li>
                 </ul>
@@ -61,17 +61,14 @@
                       <button class="order_online dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <%= user.name + " " + user.surname %>
                       </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <div class="dropdown-style dropdown-menu" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="/profile">Profil</a>
                         <a class="dropdown-item" href="/logout">Çıkış Yap</a>
                       </div>
                     <% } else { %>
                       <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal" class="order_online">Giriş Yap</a>
                     <% } %>
-                  </div>
-                  
-                  
-                  
+                  </div>  
             </div>
         </nav>
     </div>
