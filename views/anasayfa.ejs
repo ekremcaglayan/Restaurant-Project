@@ -12,18 +12,18 @@
                     <form action="/test" method="post">
                         <div class="row justify-content-center collapse" id="collapseSearch">
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
-                                <select id="base-select" class="w-100 selectpicker" data-style="btn-select" title="Yemek Seçiniz..." data-dropup-auto="false" onchange="onBaseSelectChange()" multiple>
+                                <select name="baseSelect" id="base-select" class="w-100 selectpicker" data-style="btn-select" title="Yemek Seçiniz..." data-dropup-auto="false" onchange="onBaseSelectChange()" multiple>
                                     <% baseFoods.forEach(function(baseFood) { %>
                                         <option value="<%= baseFood._id %>"><%= baseFood.name %></option>
                                       <% }) %>
                                 </select>
                             </div>
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
-                                <select id="category-select" class="w-100 selectpicker" data-style="btn-select" title="Genel Yemek Seçiniz..." data-dropup-auto="false" onchange="onCategorySelectChange()" multiple >
+                                <select name="categorySelect" id="category-select" class="w-100 selectpicker" data-style="btn-select" title="Genel Yemek Seçiniz..." data-dropup-auto="false" onchange="onCategorySelectChange()" multiple >
                                 </select>
                             </div>
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
-                                <select id="food-select" class="w-100 selectpicker" data-style="btn-select" multiple title="Restoranda sizin için ne önemli?" data-dropup-auto="false" >
+                                <select name="foodSelect" id="food-select" class="w-100 selectpicker" data-style="btn-select" multiple title="Restoranda sizin için ne önemli?" data-dropup-auto="false" >
                                 </select>
                             </div>
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">

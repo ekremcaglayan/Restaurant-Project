@@ -69,8 +69,10 @@ mongoose
   });
 
   const restaurantSchema = new mongoose.Schema({
-      //burasi yapilacaks
-
+    name: {
+      type: String,
+      required: true,
+    }
   });
   
   
@@ -218,9 +220,9 @@ app.get("/profile", function(req,res){
 });
 
 app.post("/test", function(req,res){
-  console.log(req.body.baseFood);
-  console.log(req.body.specFood);
-  console.log(req.body.priority);
+  console.log(req.body.baseSelect);
+  console.log(req.body.categorySelect);
+  console.log(req.body.foodSelect);
   res.redirect("/");
 });
 
