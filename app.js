@@ -72,6 +72,45 @@ mongoose
     name: {
       type: String,
       required: true,
+    },
+    number: {
+      type: Number,
+      required: true
+    },
+    open: {
+      type: String,
+      required: true
+    },
+    close: {
+      type: String,
+      required: true
+    },
+    location: {
+      type: String,
+      required: true
+    },
+    image: {
+      type: String,
+      required: true
+    },
+  });
+
+  const starsSchema = new mongoose.Schema({
+    speed: {
+      type: Number,
+      required: true,
+    },
+    taste: {
+      type: Number,
+      required: true
+    },
+    price: {
+      type: Number,
+      required: true
+    },
+    restaurant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Restaurant'
     }
   });
   
@@ -125,7 +164,7 @@ mongoose
   const CategoryFood = mongoose.model('CategoryFood', categoryFoodSchema);
   const BaseFood = mongoose.model('BaseFood', baseFoodSchema);
   const Restaurant = mongoose.model('Restaurant', restaurantSchema);
-
+  const Stars = mongoose.model('Stars', starsSchema);
 
 
   //yeni column ama object olarak
