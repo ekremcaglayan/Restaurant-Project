@@ -1138,3 +1138,13 @@ option{
   transform: translate(-50%, 0) !important;
   padding-right: 20px;
 }
+
+.restaurant-info{
+  font-family: 'Dancing Script', cursive;
+  font-size: large;
+}
+
+.location-button{
+  text-align: center;
+  margin-top: 15px;
+}
