@@ -120,6 +120,24 @@ mongoose
     }
   });
   
+  const commentsSchema = new mongoose.Schema({
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    star: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Stars',
+    },
+    comment: {
+      type: String,
+      required: true
+    },
+    restaurant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Restaurant'
+    }
+  });
   
   const foodSchema = new mongoose.Schema({
     name: String,
@@ -171,6 +189,7 @@ mongoose
   const BaseFood = mongoose.model('BaseFood', baseFoodSchema);
   const Restaurant = mongoose.model('Restaurant', restaurantSchema);
   const Stars = mongoose.model('Stars', starsSchema);
+  const Comments = mongoose.model('Comments', commentsSchema);
 
 
   /*Restaurant.updateOne({}, { $unset: { user: "" } })
