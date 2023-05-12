@@ -5,12 +5,12 @@
             <div class="heading_container heading_center">
                 <div class="row">
                     <div class="col-lg-6">
-                        <h2>Rosemary Cafe Menu</h2>
+                        <h2><%=restaurant.name%></h2>
                     </div>
                     <div class="col-lg-6 alert alert-warning">
-                        <p>0555 555 55 55</p>
-                        <p>Çalışma Saatleri: 9:00 - 23:00</p>
-                        <a href="https://goo.gl/maps/2rKAt6WhLweqxCpb6" target="_blank" class="btn btn-secondary">Konum</a>
+                        <p><%=restaurant.number%></p>
+                        <p>Çalışma Saatleri: <%=restaurant.open%> - <%=restaurant.close%></p>
+                        <a href="<%=restaurant.location%>" target="_blank" class="btn btn-secondary">Konum</a>
                     </div>
                     <!-- <div class="card bg-light mb-3" style="max-width: 20rem;">
                         <div class="card-header">Header</div>
@@ -22,20 +22,54 @@
                 </div>
             </div>
         
-            <ul class="filters_menu">
+            <!--<ul class="filters_menu">
                 <li class="active" data-filter="*">Hepsi</li>
                 <li data-filter=".burger">Burger</li>
                 <li data-filter=".pizza">Pizza</li>
                 <li data-filter=".pasta">Makarna</li>
                 <li data-filter=".fries">İçecekler</li>
+            </ul>-->
+
+
+            <ul class="filters_menu">
+              <li class="active" data-filter="*">Hepsi</li>
+              <% let categoryNames = []; %>
+              <% foods.forEach((food) => { %>
+                <% food.category.forEach((category) => { %>
+                  <% if (category.name && !categoryNames.includes(category.name)) { %>
+                    <li data-filter=".<%= category.name.toLowerCase() %>"><%= category.name %></li>
+                    <% categoryNames.push(category.name); %>
+                  <% } %>
+                <% }); %>
+              <% }); %>
             </ul>
+
+            
         
             <div class="filters-content">
                 <div class="row grid">
-                    <div class="col-sm-6 col-lg-4 all pizza">
+                    <% foods.forEach((food) => { %>
+                          <div class="col-sm-6 col-lg-4 all <% food.category.forEach((category) => { %> 
+                            <%=category.name.toLowerCase()+" ";%><% });%>">
+                            
+                            <div class="box">
+                              <div class="img-box">
+                                <img src="/images/f1.png" alt="">
+                              </div>
+                              <div class="detail-box">
+                                <h5><%= food.name %></h5>
+                                <p><%= food.description %></p>
+                                <div class="options">
+                                  <h6><%= food.price %>₺</h6>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      <% }); %>
+                    <!--<div class="col-sm-6 col-lg-4 all pizza">
                         <div class="box">
                             <div class="img-box">
-                                <img src="images/f1.png" alt="">
+                                <img src="/images/f1.png" alt="">
                             </div>
                             <div class="detail-box">
                                 <h5>Sebzeli Pizza</h5>
@@ -49,7 +83,7 @@
                     <div class="col-sm-6 col-lg-4 all burger">
                         <div class="box">
                             <div class="img-box">
-                                <img src="images/f2.png" alt="">
+                                <img src="/images/f2.png" alt="">
                             </div>
                             <div class="detail-box">
                                 <h5>Klasik Burger</h5>
@@ -63,7 +97,7 @@
                     <div class="col-sm-6 col-lg-4 all pizza">
                         <div class="box">
                             <div class="img-box">
-                                <img src="images/f3.png" alt="">
+                                <img src="/images/f3.png" alt="">
                             </div>
                             <div class="detail-box">
                                 <h5>Karışık Pizza</h5>
@@ -77,7 +111,7 @@
                     <div class="col-sm-6 col-lg-4 all pasta">
                         <div class="box">
                             <div class="img-box">
-                                <img src="images/f4.png" alt="">
+                                <img src="/images/f4.png" alt="">
                             </div>
                             <div class="detail-box">
                                 <h5>Sebzeli Makarna</h5>
@@ -91,7 +125,7 @@
                     <div class="col-sm-6 col-lg-4 all fries">
                         <div class="box">
                             <div class="img-box">
-                                <img src="images/f5.png" alt="">
+                                <img src="/images/f5.png" alt="">
                             </div>
                             <div class="detail-box">
                                 <h5>Patates Kızartması</h5>
@@ -105,7 +139,7 @@
                     <div class="col-sm-6 col-lg-4 all pizza">
                         <div class="box">
                             <div class="img-box">
-                                <img src="images/f6.png" alt="">
+                                <img src="/images/f6.png" alt="">
                             </div>
                             <div class="detail-box">
                                 <h5>Leziz Pizza</h5>
@@ -115,7 +149,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
         </div>

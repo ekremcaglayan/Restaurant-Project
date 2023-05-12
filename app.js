@@ -79,11 +79,13 @@ mongoose
     },
     open: {
       type: String,
+      match: /^([01]\d|2[0-3]):([0-5]\d)$/,
       required: true
     },
     close: {
       type: String,
-      required: true
+      match: /^([01]\d|2[0-3]):([0-5]\d)$/,
+      required: true,
     },
     location: {
       type: String,
@@ -92,6 +94,10 @@ mongoose
     image: {
       type: String,
       required: true
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
     },
   });
 
@@ -167,6 +173,14 @@ mongoose
   const Stars = mongoose.model('Stars', starsSchema);
 
 
+  /*Restaurant.updateOne({}, { $unset: { user: "" } })
+  .then(() => {
+    console.log('Users updated successfully.');
+  })
+  .catch((err) => {
+    console.error(err);
+  });*/
+
   //yeni column ama object olarak
   /*User.updateMany({}, { $set: { restaurant: new mongoose.Types.ObjectId() } })
   .then(() => {
@@ -201,7 +215,7 @@ app.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   // Giriş bilgilerini doğrulayın
-  const user = await User.findOne({email });
+  const user = await User.findOne({email }).populate('restaurant');
   if (!user || !(await user.matchPassword(password))) {
     return res.status(401).json({ message: 'Email veya şifre hatalı!' });
   }
@@ -299,6 +313,41 @@ app.get('/category/:categoryIds/:baseFoodIds/foods', (req, res) => {
     res.status(500).send("Error retrieving foods");
   });
 });
+
+
+app.get("/restaurants/:restaurantId", async (req, res) => {
+  try {
+    const restaurantId = req.params.restaurantId;
+
+    const user = await User.findOne({ restaurant: restaurantId }).exec();
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const foods = await Food.find({ user: user._id })
+      .populate("user category base")
+      .exec();
+
+    const restaurant = await Restaurant.findOne({ _id: restaurantId }).exec();
+    if (!restaurant) {
+      return res.status(404).send("Restaurant not found");
+    }
+
+    if (restaurantId !== "favicon.ico") {
+      const user = req.session.user;
+      res.render("restoran", {
+        title: restaurant.name,
+        user: user,
+        restaurant: restaurant,
+        foods: foods,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 
 
 app.get("/:navigation", function(req, res){
