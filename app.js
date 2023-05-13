@@ -220,14 +220,25 @@ mongoose
   });*/
 
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
 
-  BaseFood.find().populate('categories')
-  .then((baseFoods) => {
-    const user = req.session.user;
-    res.render('anasayfa', {title: 'Anasayfa', user: user, baseFoods: baseFoods});
-  })
-  .catch((err) => console.log(err));
+try{
+  const user = req.session.user;
+  const baseFoods = await BaseFood.find().populate('categories').exec();
+  if(!baseFoods){
+    return res.status(404).send("baseFoods not found");
+  }
+  const restaurants = await Restaurant.find().exec();
+  if(!restaurants){
+    return res.status(404).send("restaurants not found");
+  }
+
+  res.render('anasayfa', {title: 'Anasayfa', user: user, baseFoods: baseFoods, restaurants:restaurants});
+
+} catch(error){
+  console.log(error);
+  res.status(500).send("Internal Server Error");
+}
 });
 
 app.post('/login', async (req, res) => {
@@ -368,6 +379,16 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
 });
 
 
+
+app.post('/saveProfile', async (req, res) => {
+
+  const { phone, address} = req.body;
+
+  console.log(phone);
+
+
+
+});
 
 app.get("/:navigation", function(req, res){
   

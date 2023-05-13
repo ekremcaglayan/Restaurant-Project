@@ -24,12 +24,18 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="text-right">Restoran Ayarları</h4>
                     </div>
+                    <form action="/saveProfile" method="post">
                     <div class="row mt-2">
                         <div class="col-md-6"><label class="labels">Restoran İsmi</label><input type="text" class="form-control" placeholder="<%=user.restaurant.name%>" value=""></div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-md-6"><label class="labels">Telefon numarası</label><input type="text" class="form-control" placeholder="Telefon numarası giriniz" value=""></div>
-                        <div class="col-md-12"><label class="labels">Adres</label><input type="text" class="form-control" placeholder="Adres giriniz" value=""></div>
+                        <div class="col-md-6">
+                            <label class="labels">Telefon numarası</label>
+                            <input type="text" name="phone" class="form-control" placeholder="Telefon numarası giriniz" value="">
+                        </div>
+                        <div class="col-md-12"><label class="labels">Adres</label>
+                            <input type="text" name="address" class="form-control" placeholder="Adres giriniz" value="">
+                        </div>
                         <div class="col-md-6"><label class="labels">Posta Kodu</label><input type="text" class="form-control" placeholder="Posta kodu giriniz" value=""></div>
                         <div class="col-md-6"><label class="labels">E-mail</label><input type="text" class="form-control" placeholder="E-mail adresi giriniz" value=""></div>
                     </div>
@@ -37,7 +43,8 @@
                         <div class="col-md-6"><label class="labels">İl</label><input type="text" class="form-control" placeholder="İl giriniz" value=""></div>
                         <div class="col-md-6"><label class="labels">İlçe</label><input type="text" class="form-control" value="" placeholder="İlçe giriniz"></div>
                     </div>
-                    <div class="mt-4 text-center"><button class="btn btn-dark btn-lg profile-button" type="button">Kaydet</button></div>
+                    <div class="mt-4 text-center"><button class="btn btn-dark btn-lg profile-button" type="submit">Kaydet</button></div>
+                    </form>
                 </div>
             </div>
         </div>
