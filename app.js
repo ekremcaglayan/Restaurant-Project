@@ -143,6 +143,7 @@ mongoose
     name: String,
     content: String,
     price: Number,
+    image: String,
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
@@ -160,6 +161,7 @@ mongoose
   const categoryFoodSchema = new mongoose.Schema({
     name: String,
     content: String,
+    icon: String,
     bases: [
         {
           type: mongoose.Schema.Types.ObjectId,
@@ -170,6 +172,7 @@ mongoose
   
   const baseFoodSchema = new mongoose.Schema({
     name: String,
+    icon: String,
     categories: [
         {
           type: mongoose.Schema.Types.ObjectId,
@@ -219,7 +222,6 @@ mongoose
     console.log(err);
   });*/
 
-
 app.get('/', async (req, res) => {
 
 try{
@@ -232,8 +234,12 @@ try{
   if(!restaurants){
     return res.status(404).send("restaurants not found");
   }
+  const stars = await Stars.find().populate('restaurant').exec();
+  if(!stars){
+    return res.status(404).send("stars not found");
+  }
 
-  res.render('anasayfa', {title: 'Anasayfa', user: user, baseFoods: baseFoods, restaurants:restaurants});
+  res.render('anasayfa', {title: 'Anasayfa', user: user, baseFoods: baseFoods, restaurants:restaurants, stars:stars});
 
 } catch(error){
   console.log(error);
@@ -363,6 +369,16 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
       return res.status(404).send("Restaurant not found");
     }
 
+    const stars = await Stars.find({ restaurant: restaurant._id }).exec();
+    let averageStars = 0;
+    if (stars.length > 0) {
+      let totalStars = 0;
+      for (let i = 0; i < stars.length; i++) {
+        totalStars += stars[i].speed + stars[i].taste + stars[i].price;
+      }
+      averageStars = totalStars / (stars.length * 3);
+    }
+
     if (restaurantId !== "favicon.ico") {
       const user = req.session.user;
       res.render("restoran", {
@@ -370,6 +386,7 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
         user: user,
         restaurant: restaurant,
         foods: foods,
+        averageStars: averageStars,
       });
     }
   } catch (error) {
@@ -380,15 +397,37 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
 
 
 
-app.post('/saveProfile', async (req, res) => {
+app.post('/SaveRestProfile', async (req, res) => {
 
-  const { phone, address} = req.body;
+  const {restoran_ismi,phone,address,mail,opened,closes} = req.body;
 
-  console.log(phone);
-
-
+  console.log(restoran_ismi,phone,address,mail,opened,closes);
 
 });
+
+app.post('/SaveProfile', async (req, res) => {
+
+  const {name,surname,phone,mail} = req.body;
+
+  console.log(name,surname,phone,mail);
+
+});
+
+app.get('/restoranlar', async (req, res) => {
+
+  try{
+    const user = req.session.user;
+    const restaurants = await Restaurant.find().exec();
+    if(!restaurants){
+      return res.status(404).send("restaurants not found");
+    }
+    res.render('restoranlar', {title: 'Restoranlar', user: user, restaurants:restaurants});
+  
+  } catch(error){
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
+  });
 
 app.get("/:navigation", function(req, res){
   

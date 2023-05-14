@@ -1,4 +1,5 @@
 <%- include('partials/header') %>
+<div class="ratings">
     <!-- food section -->
     <section class="food_section layout_padding food_layout">
         <div class="container">
@@ -6,6 +7,21 @@
                 <div class="row">
                     <div class="col-lg-5">
                         <h2><%=restaurant.name%></h2>
+                            <% let fullStars = Math.floor(averageStars); %>
+                            <% let hasHalfStar = averageStars - fullStars >= 0.5; %>
+                            <% let emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); %>
+                            <% for (let k = 0; k < fullStars; k++) { %>
+                              <i class="fa fa-star rating-color"></i>
+                            <% } %>
+                            <% if (hasHalfStar) { %>
+                              <i class="fa-solid fa-star-half-stroke rating-color"></i>
+                            <% } %>
+                            <% for (let k = 0; k < emptyStars; k++) { %>
+                              <i class="fa fa-star"></i>
+                            <% } %>
+                          <% if (averageStars > 0) { %>
+                              <p>Puan: <%= Math.floor(averageStars * 10) / 10 %></p>
+                          <% } %>
                     </div>
                     <div class="col-lg-5">
                         <p class="restaurant-info"><i class="fa fa-phone-square" aria-hidden="true"></i> <%=restaurant.number%></p>
@@ -56,11 +72,11 @@
                             
                             <div class="box">
                               <div class="img-box">
-                                <img src="/images/f1.png" alt="">
+                                <img src="/images/<%= food.image %>.png" alt="">
                               </div>
                               <div class="detail-box">
                                 <h5><%= food.name %></h5>
-                                <p><%= food.description %></p>
+                                <p><%= food.content %></p>
                                 <div class="options">
                                   <h6><%= food.price %>₺</h6>
                                 </div>

@@ -7,132 +7,31 @@
         <div class="offer_container">
             <div class="container ">
                 <div class="row">
-                    <div class="col-md-6  ">
-                        <a href="restoran">
-                            <div class="box restoranlar-part">
-                                <div class="img-box">
-                                    <img src="images/rosemary.jpg" alt="">
-                                </div>
-                                <div class="detail-box restoranlar-detay">
-                                    <h2>Rosemary Cafe</h2>
-                                    <h6>Tel No: 0532 589 03 51</h6>
-                                    <h6>Çalışma Saatleri: 09.00 - 02.00</h6>
-                                    <div class="ratings">
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star"></i>
+                                                            <!-- Elif -->
+                <% for (let i = 0; i < restaurants.length; i++) { %>
+                        <div class="col-md-6  ">
+                            <a href="restaurants/<%= restaurants[i]._id %>">
+                                <div class="box restoranlar-part">
+                                    <div class="img-box">
+                                        <img src="images/<%=restaurants[i].image %>" alt="">
+                                    </div>
+                                    <div class="detail-box restoranlar-detay">
+                                        <h2><%=restaurants[i].name %></h2>
+                                        <h6>Tel No: <%=restaurants[i].number %></h6>
+                                        <h6>Çalışma Saatleri: <%=restaurants[i].open %> - <%=restaurants[i].close %></h6>
+                                        <div class="ratings">
+                                            <i class="fa fa-star rating-color"></i>
+                                            <i class="fa fa-star rating-color"></i>
+                                            <i class="fa fa-star rating-color"></i>
+                                            <i class="fa fa-star rating-color"></i>
+                                            <i class="fa fa-star"></i>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6  ">
-                        <a href="restoran">
-                            <div class="box restoranlar-part">
-                                <div class="img-box">
-                                    <img src="images/cafeDeSolis.jpg" alt="">
-                                </div>
-                                <div class="detail-box restoranlar-detay">
-                                    <h2>Cafe De Solis</h2>
-                                    <h6>Tel No: 0216 576 43 45</h6>
-                                    <h6>Çalışma Saatleri: 08.00 - 02.00</h6>
-                                    <div class="ratings">
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6  ">
-                        <a href="restoran">
-                            <div class="box restoranlar-part">
-                                <div class="img-box">
-                                    <img src="images/çifa.jpg" alt="">
-                                </div>
-                                <div class="detail-box restoranlar-detay">
-                                    <h2>Çifa Cafe</h2>
-                                    <h6>Tel No: 0532 589 03 51</h6>
-                                    <h6>Çalışma Saatleri: 08.00 - 01.00</h6>
-                                    <div class="ratings">
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6  ">
-                        <a href="restoran">
-                            <div class="box restoranlar-part">
-                                <div class="img-box">
-                                    <img src="images/mirhan.jpg" alt="">
-                                </div>
-                                <div class="detail-box restoranlar-detay">
-                                    <h2>Mirhan Cafe Rest</h2>
-                                    <h6>Tel No: 0216 469 01 35</h6>
-                                    <h6>Çalışma Saatleri: 09.00 - 04.00</h6>
-                                    <div class="ratings">
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6  ">
-                        <a href="restoran">
-                            <div class="box restoranlar-part">
-                                <div class="img-box">
-                                    <img src="images/blacky.jpg" alt="">
-                                </div>
-                                <div class="detail-box restoranlar-detay">
-                                    <h2>Blacky Cafe</h2>
-                                    <h6>Tel No: 0532 589 03 51</h6>
-                                    <h6>Çalışma Saatleri: 09.00 - 04.00</h6>
-                                    <div class="ratings">
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6  ">
-                        <a href="restoran">
-                            <div class="box restoranlar-part">
-                                <div class="img-box">
-                                    <img src="images/tıkırtı.jpg" alt="">
-                                </div>
-                                <div class="detail-box restoranlar-detay">
-                                    <h2>Tıkırtı</h2>
-                                    <h6>Tel No: 0216 578 00 00</h6>
-                                    <h6>Çalışma Saatleri: 09.00 - 23.00</h6>
-                                    <div class="ratings">
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star rating-color"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                            </a>
+                        </div>
+                    <% } %>
+                                                            <!-- Elif -->
                 </div>
             </div>
         </div>

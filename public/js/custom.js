@@ -167,27 +167,36 @@ document.querySelector('#register-form').addEventListener('submit', async (e) =>
 function onBaseSelectChange() {
     const baseSelect = document.getElementById("base-select");
     const selectedBaseIds = [...baseSelect.selectedOptions].map(option => option.value); // get an array of selected base food IDs
-
-    const categorySelect = document.getElementById("category-select");
-    const foodSelect = document.getElementById("food-select");
-
-    // disable the category and food selects while loading new data
-    categorySelect.disabled = true;
-    foodSelect.disabled = true;
-
-    // send an AJAX request to get the categories for the selected base foods
-    fetch(`/base/${selectedBaseIds.join(",")}/categories`)
-      .then(response => response.json())
-      .then(categories => {
-        // populate the category select with the retrieved categories
-        categorySelect.innerHTML = `${categories.map(category => `<option value="${category._id}">${category.name}</option>`).join("")}`;
-        // enable the category select
-        categorySelect.disabled = false;
+  
+    if (selectedBaseIds.length > 0) {
+      const categorySelect = document.getElementById("category-select");
+      const foodSelect = document.getElementById("food-select");
+  
+      // disable the category and food selects while loading new data
+      categorySelect.disabled = true;
+      foodSelect.disabled = true;
+  
+      // send an AJAX request to get the categories for the selected base foods
+      fetch(`/base/${selectedBaseIds.join(",")}/categories`)
+        .then(response => response.json())
+        .then(categories => {
+          // populate the category select with the retrieved categories
+          categorySelect.innerHTML = `${categories.map(category => `<option data-icon="${category.icon || "fa-solid fa-fork-knife"}" value="${category._id}">${category.name}</option>`).join("")}`;
+          // enable the category select
+          categorySelect.disabled = false;
+          $('#category-select').selectpicker('destroy');
+          $('#category-select').selectpicker('render');
+        })
+        .catch(error => console.log(error));
+    }else if(selectedBaseIds.length == 0){
+        const categorySelect = document.getElementById("category-select");
+        const foodSelect = document.getElementById("food-select");
+        categorySelect.disabled = true;
         $('#category-select').selectpicker('destroy');
         $('#category-select').selectpicker('render');
-      })
-      .catch(error => console.log(error));
+    }
   }
+  
 
 
   function onCategorySelectChange() {
