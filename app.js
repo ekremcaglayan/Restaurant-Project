@@ -364,10 +364,10 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
       .populate("user category base")
       .exec();
 
-    const restaurant = await Restaurant.findOne({ _id: restaurantId }).exec();
-    if (!restaurant) {
-      return res.status(404).send("Restaurant not found");
-    }
+      const restaurant = await Restaurant.findById(restaurantId).exec();
+      if (!restaurant) {
+        return res.status(404).send("Restaurant not found");
+      }
 
     const stars = await Stars.find({ restaurant: restaurant._id }).exec();
     let averageStars = 0;
