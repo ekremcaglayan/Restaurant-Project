@@ -7,31 +7,48 @@
         <div class="offer_container">
             <div class="container ">
                 <div class="row">
-                                                            <!-- Elif -->
-                <% for (let i = 0; i < restaurants.length; i++) { %>
-                        <div class="col-md-6  ">
-                            <a href="restaurants/<%= restaurants[i]._id %>">
-                                <div class="box restoranlar-part">
-                                    <div class="img-box">
-                                        <img src="images/<%=restaurants[i].image %>" alt="">
-                                    </div>
-                                    <div class="detail-box restoranlar-detay">
-                                        <h2><%=restaurants[i].name %></h2>
-                                        <h6>Tel No: <%=restaurants[i].number %></h6>
-                                        <h6>Çalışma Saatleri: <%=restaurants[i].open %> - <%=restaurants[i].close %></h6>
-                                        <div class="ratings">
-                                            <i class="fa fa-star rating-color"></i>
-                                            <i class="fa fa-star rating-color"></i>
-                                            <i class="fa fa-star rating-color"></i>
-                                            <i class="fa fa-star rating-color"></i>
-                                            <i class="fa fa-star"></i>
-                                        </div>
-                                    </div>
+                    <% for (let i = 0; i < restaurants.length; i++) { %>
+                        <% let restaurantStars = stars.filter(star => star.restaurant._id.toString() === restaurants[i]._id.toString()); %>
+                        <% let totalStars = 0; %>
+                        <% let averageStars = 0; %>
+                        <% if (restaurantStars.length > 0) { %>
+                        <% for (let j = 0; j < restaurantStars.length; j++) { %>
+                            <% totalStars += restaurantStars[j].speed + restaurantStars[j].taste + restaurantStars[j].price; %>
+                        <% } %>
+                        <% averageStars = totalStars / (restaurantStars.length * 3); %>
+                        <% } %>
+                        <div class="col-md-6">
+                        <a href="restaurants/<%= restaurants[i]._id %>">
+                            <div class="box restoranlar-part">
+                            <div class="img-box">
+                                <img src="images/<%=restaurants[i].image %>" alt="">
+                            </div>
+                            <div class="detail-box">
+                                <h2><%=restaurants[i].name %></h2>
+                                <h6>Tel No: <%=restaurants[i].number %></h6>
+                                <h6>Çalışma Saatleri: <%=restaurants[i].open %> - <%=restaurants[i].close %></h6>
+                                <div class="ratings">
+                                <% let fullStars = Math.floor(averageStars); %>
+                                <% let hasHalfStar = averageStars - fullStars >= 0.5; %>
+                                <% let emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); %>
+                                <% for (let k = 0; k < fullStars; k++) { %>
+                                    <i class="fa fa-star rating-color"></i>
+                                <% } %>
+                                <% if (hasHalfStar) { %>
+                                    <i class="fa-solid fa-star-half-stroke rating-color"></i>
+                                <% } %>
+                                <% for (let k = 0; k < emptyStars; k++) { %>
+                                    <i class="fa fa-star"></i>
+                                <% } %>
                                 </div>
-                            </a>
+                                <% if (averageStars > 0) { %>
+                                <p>Puan: <%= Math.floor(averageStars * 10) / 10 %></p>
+                                <% } %>
+                            </div>
+                            </div>
+                        </a>
                         </div>
                     <% } %>
-                                                            <!-- Elif -->
                 </div>
             </div>
         </div>

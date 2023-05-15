@@ -64,7 +64,7 @@
 
             <div class="add-button">
                 <li class="list-inline-item">
-                    <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa-sharp fa-solid fa-plus"></i> Yemek Ekle</button>
+                    <button class="btn btn-success btn-sm rounded-0" type="button" data-bs-toggle="tooltip" data-placement="top" title="Edit"><i class="fa-sharp fa-solid fa-plus"></i> Yemek Ekle</button>
                 </li>
             </div>
 
@@ -233,22 +233,32 @@
             </div>
             <div class="carousel-wrap row ">
                 <div class="owl-carousel client_owl-carousel">
-                    <div class="item">
-                        <div class="box">
-                            <div class="detail-box">
-                                <p>Kaliteli servis, huzurlu ortam.</p>
-                                <h6>Mustafa Karan</h6>
+                    <% comments.forEach((comment) => { %>
+                        <div class="item">
+                            <div class="box">
+                                <div class="detail-box">
+                                    <p><%=comment.comment%></p>
+                                    <h6><%=comment.user.name%></h6>
+                                    <%let averageStars = (comment.star.speed+comment.star.taste+comment.star.price)/3; %>
+                                    <% let fullStars = Math.floor(averageStars); %>
+                                    <% let hasHalfStar = averageStars - fullStars >= 0.5; %>
+                                    <% let emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); %>
+                                    <% for (let k = 0; k < fullStars; k++) { %>
+                                      <i class="fa fa-star rating-color"></i>
+                                    <% } %>
+                                    <% if (hasHalfStar) { %>
+                                      <i class="fa-solid fa-star-half-stroke rating-color"></i>
+                                    <% } %>
+                                    <% for (let k = 0; k < emptyStars; k++) { %>
+                                      <i class="fa fa-star"></i>
+                                    <% } %>
+                                  <% if (averageStars > 0) { %>
+                                      <p>Puan: <%= Math.floor(averageStars * 10) / 10 %></p>
+                                  <% } %>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="item">
-                        <div class="box">
-                            <div class="detail-box">
-                                <p>Mutfagi yavas bir mekan hemen yiyip kalkalim acelemiz var diyorsaniz baya bekleyeceksiniz. Yemekten once zeytinyagli sos ve minik sirin ekmekler getiriyorlar ve ekmeklere ozellikle bayildim!Rosemary burger cok lezzetli,Fiyatlar yeditepe normalinde, porsiyonlar buyuk. Kesinlikle bu çevredeki en iyi alternatif.</p>
-                                <h6>Işıl Bıyıkoğlu</h6>
-                            </div>
-                        </div>
-                    </div>
+                    <% }); %>
                 </div>
             </div>
         </div>

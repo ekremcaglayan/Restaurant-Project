@@ -379,6 +379,11 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
       averageStars = totalStars / (stars.length * 3);
     }
 
+    const comments = await Comments.find({restaurant:restaurant._id} ).populate('restaurant star user').exec();
+    if(!comments){
+      return res.status(404).send("Comments not found");
+    }
+
     if (restaurantId !== "favicon.ico") {
       const user = req.session.user;
       res.render("restoran", {
@@ -387,6 +392,7 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
         restaurant: restaurant,
         foods: foods,
         averageStars: averageStars,
+        comments:comments,
       });
     }
   } catch (error) {
@@ -421,7 +427,12 @@ app.get('/restoranlar', async (req, res) => {
     if(!restaurants){
       return res.status(404).send("restaurants not found");
     }
-    res.render('restoranlar', {title: 'Restoranlar', user: user, restaurants:restaurants});
+
+    const stars = await Stars.find().populate('restaurant').exec();
+    if(!stars){
+      return res.status(404).send("stars not found");
+    }
+    res.render('restoranlar', {title: 'Restoranlar', user: user, restaurants:restaurants, stars:stars});
   
   } catch(error){
     console.log(error);
