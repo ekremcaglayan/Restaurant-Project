@@ -28,7 +28,7 @@
                         <p class="restaurant-info">Çalışma Saatleri: <%=restaurant.open%> - <%=restaurant.close%></p>
                     </div>
                     <div class="col-lg-2">
-                        <a href="<%=restaurant.location%>" target="_blank" class="btn btn-danger location-button"><i class="fa fa-map-marker fa-2x" aria-hidden="true"></i></a>
+                        <a href="<%=restaurant.location%>" target="_blank" class="btn btn-danger location-button"><i class="fa-solid fa-location-dot fa-2x"></i></a>
                     </div>
                     <!-- <div class="card bg-light mb-3" style="max-width: 20rem;">
                         <div class="card-header">Header</div>
@@ -50,40 +50,53 @@
 
 
             <ul class="filters_menu">
-              <li class="active" data-filter="*">Hepsi</li>
-              <% let categoryNames = []; %>
-              <% foods.forEach((food) => { %>
-                <% food.category.forEach((category) => { %>
-                  <% if (category.name && !categoryNames.includes(category.name)) { %>
-                    <li data-filter=".<%= category.name.toLowerCase() %>"><%= category.name %></li>
-                    <% categoryNames.push(category.name); %>
-                  <% } %>
+                <li class="active" data-filter="*">Hepsi</li>
+                <% let categoryNames = []; %>
+                <% foods.forEach((food) => { %>
+                    <% food.category.forEach((category) => { %>
+                    <% if (category.name && !categoryNames.includes(category.name)) { %>
+                        <li data-filter=".<%= category.name.toLowerCase() %>"><%= category.name %></li>
+                        <% categoryNames.push(category.name); %>
+                    <% } %>
+                    <% }); %>
                 <% }); %>
-              <% }); %>
             </ul>
 
-            
-        
+            <div class="add-button">
+                <li class="list-inline-item">
+                    <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa-sharp fa-solid fa-plus"></i> Yemek Ekle</button>
+                </li>
+            </div>
+
+
             <div class="filters-content">
                 <div class="row grid">
                     <% foods.forEach((food) => { %>
-                          <div class="col-sm-6 col-lg-4 all <% food.category.forEach((category) => { %> 
+                        <div class="col-sm-6 col-lg-4 all <% food.category.forEach((category) => { %> 
                             <%=category.name.toLowerCase()+" ";%><% });%>">
                             
                             <div class="box">
-                              <div class="img-box">
-                                <img src="/images/<%= food.image %>.png" alt="">
-                              </div>
-                              <div class="detail-box">
-                                <h5><%= food.name %></h5>
-                                <p><%= food.content %></p>
-                                <div class="options">
-                                  <h6><%= food.price %>₺</h6>
+                                <div class="img-box">
+                                    <img src="/images/<%= food.image %>.png" alt="">
                                 </div>
-                              </div>
+                                <div class="detail-box">
+                                    <h5><%= food.name %></h5>
+                                    <p><%= food.content %></p>
+                                    <div class="options">
+                                        <h6><%= food.price %>₺</h6>
+                                    </div>
+                                </div>
+                                <div class="edit-buttons">
+                                    <li class="list-inline-item">
+                                        <button class="btn btn-primary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                                    </li>
+                                </div>
                             </div>
-                          </div>
-                      <% }); %>
+                        </div>
+                    <% }); %>
                     <!--<div class="col-sm-6 col-lg-4 all pizza">
                         <div class="box">
                             <div class="img-box">

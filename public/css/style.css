@@ -1148,3 +1148,13 @@ option{
   text-align: center;
   margin-top: 15px;
 }
+
+.edit-buttons{
+  position: relative;
+  left: 80%;
+}
+
+.add-button{
+  position: relative;
+  left: 45%;
+}
