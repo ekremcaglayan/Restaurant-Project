@@ -359,6 +359,10 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
     if (!user) {
       return res.status(404).send("User not found");
     }
+    const baseFoods = await BaseFood.find().populate('categories').exec();
+    if(!baseFoods){
+      return res.status(404).send("baseFoods not found");
+    }
 
     const foods = await Food.find({ user: user._id })
       .populate("user category base")
@@ -393,6 +397,7 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
         foods: foods,
         averageStars: averageStars,
         comments:comments,
+        baseFoods: baseFoods
       });
     }
   } catch (error) {
@@ -432,20 +437,42 @@ app.post('/SaveProfile', async (req, res) => {
 
 });
 
-// app.post('/addMenu', async (req, res) => {
+app.post('/addFood', async (req, res) => {
 
-//   const { name, content, price, image, user, category, base } = req.body;
+  const { name, content, price, image, restaurantId, category, base } = req.body;
+  console.log(name, content, price, image, restaurantId, category, base);
 
-//   try {
-//     const newFood = new Food({ name, content, price, image, user, category, base });
-//     newFood.save();
-//     res.redirect('/'); 
-//   } catch (error) {
-//     console.error(error);
-//     res.render('hata', { mesaj: 'Yemek kaydedilirken hata oluştu.' });
-//   }
+  try {
+    const user = await User.findOne({ restaurant: restaurantId }).exec();
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    const newFood = new Food({ name, content, price, image, user, category, base });
+    newFood.save();
+    res.redirect(`/restaurants/${restaurantId}`);
+  } catch (error) {
+    console.error(error);
+    res.render('hata', { mesaj: 'Yemek kaydedilirken hata oluştu.' });
+  }
 
-// });
+});
+
+app.post('/foodDelete', async(req, res) => {
+
+  try {
+    const foodId = req.body.foodId;
+    const restaurantId = req.body.restaurantId;
+    const foodDelete = await Food.findByIdAndDelete(foodId).exec();
+    if (!foodDelete) {
+        return res.status(409).json({ message: 'Hata!' });
+    }
+    res.redirect(`/restaurants/${restaurantId}`);
+  } catch (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Hata' });
+  }
+});
+
 
 app.get('/restoranlar', async (req, res) => {
 
@@ -462,10 +489,10 @@ app.get('/restoranlar', async (req, res) => {
     }
     res.render('restoranlar', {title: 'Restoranlar', user: user, restaurants:restaurants, stars:stars});
   
-  } catch(error){
-    console.log(error);
-    res.status(500).send("Internal Server Error");
-  }
+    } catch(error){
+      console.log(error);
+      res.status(500).send("Internal Server Error");
+    }
   });
 
 app.get("/:navigation", function(req, res){

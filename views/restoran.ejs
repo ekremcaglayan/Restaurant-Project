@@ -69,37 +69,41 @@
                     </button>
                 </li>
             </div>
-            <form action="/addMenu" method="post">
+            <form action="/addFood" method="post">
                 <div class="collapse" id="collapseExample">
                     <div class="card card-body input-border">
                         <div class="row">
                             <div class=".col-12 col-md-12 col-lg-4">
-                                <input type="text" placeholder="Yemek adını giriniz." class="form-control input-margin">
+                                <input name="name" type="text" placeholder="Yemek adını giriniz." class="form-control input-margin">
                             </div>
                             <div class=".col-12 col-md-12 col-lg-4">
-                                <input type="text" placeholder="Yemek içeriğini giriniz." class="form-control input-margin">
+                                <input name="content" type="text" placeholder="Yemek içeriğini giriniz." class="form-control input-margin">
                             </div>
                             <div class=".col-12 col-md-12 col-lg-4">
-                                <input type="text" placeholder="Yemek fiyatını giriniz." class="form-control input-margin">
+                                <input name="price" type="text" placeholder="Yemek fiyatını giriniz." class="form-control input-margin">
                             </div>
                             <div class=".col-12 col-md-12 col-lg-6">
-                                <select name="baseSelect" id="base-select" class="w-100 selectpicker input-margin" title="Yemek kategorisi seçiniz." data-dropup-auto="false" multiple required>
+                                <select name="base" id="base-select" class="w-100 selectpicker input-margin" title="Yemek kategorisi seçiniz." data-dropup-auto="false" onchange="onBaseSelectChange()" multiple required>
+                                    <% baseFoods.forEach(function(baseFood) { %>
+                                        <option data-icon="<%= baseFood.icon %>" value="<%= baseFood._id %>"><%= baseFood.name %></option>
+                                    <% }) %>
                                 </select>
                             </div>
                             <div class=".col-12 col-md-12 col-lg-6">
-                                <select name="categorySelect" id="category-select" class="w-100 selectpicker input-margin" title="Genel yemek kategorisi seçiniz." data-dropup-auto="false" multiple required>
+                                <select disabled name="category" id="category-select" class="w-100 selectpicker input-margin" title="Genel yemek kategorisi seçiniz." data-dropup-auto="false" multiple required>
                                 </select>
+                                <input type="hidden" id="food-select">
                             </div>
-                            <input type="hidden" class="form-control input-margin">
+                            <input type="hidden" name="restaurantId" value="<%= restaurant._id %>">
                         </div>
                         <br>
                         <div class="custom-file input-image">
-                            <input type="file" class="custom-file-input" id="inputGroupFile01">
+                            <input type="file" name="image" class="custom-file-input" id="inputGroupFile01">
                             <label class="custom-file-label" for="inputGroupFile01">Görsel İçin Dosya Seçin</label>
                         </div>
                         <br>
                         <div class="add-button">
-                            <button type="button" class="btn btn-success">Ekle</button>
+                            <button type="submit" class="btn btn-success">Ekle</button>
                         </div>
                     </div>                
                 </div>
@@ -110,10 +114,9 @@
                     <% foods.forEach((food) => { %>
                         <div class="col-sm-6 col-lg-4 all <% food.category.forEach((category) => { %> 
                             <%=category.name.toLowerCase()+" ";%><% });%>">
-                            
                             <div class="box">
                                 <div class="img-box">
-                                    <img src="/images/<%= food.image %>.png" alt="">
+                                    <img src="/images/<%= food.image %>" alt="">
                                 </div>
                                 <div class="detail-box">
                                     <h5><%= food.name %></h5>
@@ -123,12 +126,16 @@
                                     </div>
                                 </div>
                                 <div class="edit-buttons">
-                                    <li class="list-inline-item">
-                                        <button class="btn btn-primary btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <button class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
-                                    </li>
+                                    <form action="/foodDelete" method="post">
+                                        <li class="list-inline-item">
+                                            <button class="btn btn-primary btn-sm" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <input type="hidden" name="foodId" value="<%= food._id %>">
+                                            <input type="hidden" name="restaurantId" value="<%= restaurant._id %>">
+                                            <button class="btn btn-danger btn-sm" type="submit" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                                        </li>
+                                    </form>
                                 </div>
                             </div>
                         </div>
