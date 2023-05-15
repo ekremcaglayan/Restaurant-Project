@@ -4,21 +4,10 @@
         <div class="row">
             <div class="col-md-4 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                    <h1>Profil Bilgileriniz - 
-                        
-                        <% if (user) { %>
-                            <%=user.name%>
-                        <%}%>
-                    
-                    
-                    </h1>
-                    <br>
+                    <h1>Profil Bilgileriniz</h1>
                     <span class="font-weight-bold">Ad: <%=user.name%></span>
-                    <span class="font-weight-bold">Soyad: Mazmegs</span>
-                    <span class="font-weight-bold">Telefon numarası: 0555 555 55 55</span>
-                    <br>
-                    <span class="text-black-50">E-mail: örnek_email@gmail.com</span>
-                    <span> </span>
+                    <span class="font-weight-bold">Soyad: <%=user.surname%></span>
+                    <span class="text-black-50">E-mail: <%=user.email%></span>
                 </div>
             </div>
             <div class="col-md-8 border-right">
@@ -29,24 +18,73 @@
 					<form action="/SaveProfile" method="post"> <!-- /saveProfile' -->
                     <div class="row mt-2">
                         <div class="col-md-6"><label class="labels">Ad</label>
-						<input type="text" name="name" class="form-control" placeholder="Ad" value="">
+						<input type="text" name="name" class="form-control" placeholder="<%=user.name%>" value="<%=user.name%>">
 						</div>
                         <div class="col-md-6"><label class="labels">Soyad</label>
-						<input type="text" name="surname" class="form-control" value="" placeholder="Soyad">
+						<input type="text" name="surname" class="form-control" value="<%=user.surname%>" placeholder="<%=user.surname%>">
 						</div>
                     </div>
                     <div class="row mt-3">
-                        <div class="col-md-6"><label class="labels">Telefon numarası</label>
-						<input type="text"name="phone" class="form-control" placeholder="Telefon numarası giriniz" value="">
-						</div>
                         <div class="col-md-6"><label class="labels">E-mail</label>
-						<input type="text" name="mail" class="form-control" placeholder="E-mail adresi giriniz" value="">
+						<input type="text" name="email" class="form-control" placeholder="<%=user.email%>" value="<%=user.email%>">
 						</div>
                     </div>
                     <div class="mt-5 text-center"><button class="btn btn-dark btn-lg profile-button" type="submit">Kaydet</button></div>
 					</form> <!-- /saveProfile' -->
                 </div>
             </div>
+            <%if (user.userType=="restaurant") {%>
+                <hr>
+                <div class="col-md-4 border-right">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                            <h1>Restoran Bilgileriniz</h1>
+                            <input type="file" name="image" id="image-input" class="form-control" style="display: none;">
+                            <label for="image-input">
+                                <img src="/images/<%=user.restaurant.image %>" alt="Mevcut Resim" width="100" height="100" style="cursor: pointer;">
+                            </label>
+                            <br>
+                            <span class="font-weight-bold">Restoran Adı: <%=user.restaurant.name%></span>
+                            <span class="font-weight-bold">Tel No: <%=user.restaurant.number%></span>
+                            <span class="font-weight-bold"><a href="<%= user.restaurant.location %>">Konum</a></span>
+                            <span class="text-black-50">Açılış - Kapanış: <%=user.restaurant.open%> - <%=user.restaurant.close%></span>
+                            <br>
+                            <h2>Menü</h2>
+                            <div class="mt-1 text-center"><button class="btn btn-dark profile-button" type="button">Düzenle</button></div>
+                    </div> 
+                </div>
+                <div class="col-md-8 border-right">
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-right">Restoran Ayarları</h4>
+                        </div>
+                        <form action="/saveRestProfile" method="post">
+                        <div class="row mt-2">
+                            <div class="col-md-6"><label class="labels">Restoran İsmi</label><input type="text" name="name" class="form-control" placeholder="<%=user.restaurant.name%>" value="<%=user.restaurant.name%>"></div>
+                            <div class="col-md-6">
+                                <label class="labels">Telefon numarası</label>
+                                <input type="text" name="phone" class="form-control" placeholder="<%=user.restaurant.number%>" value="<%=user.restaurant.number%>">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12"><label class="labels">Adres</label>
+                                <input type="text" name="address" class="form-control" placeholder="<%=user.restaurant.location%>" value="<%=user.restaurant.location%>">
+                            </div>                          
+                         </div>
+                         <div class="row mt-3">
+                            <div class="col-md-6">
+                                <label class="labels">Açılış Saati</label>
+                                <input type="text" name="open" class="form-control" placeholder="<%=user.restaurant.open%>" value="<%=user.restaurant.open%>">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="labels">Kapanış Saati</label>
+                                <input type="text" name="close" class="form-control" placeholder="<%=user.restaurant.close%>" value="<%=user.restaurant.close%>">
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center"><button class="btn btn-dark btn-lg profile-button" type="submit">Kaydet</button></div>
+                        </form>
+                    </div>
+                </div>
+            <%}%>
         </div>
     </div>
     <!-- end profile section -->

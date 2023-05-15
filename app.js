@@ -301,7 +301,7 @@ app.get("/profile", function(req,res){
     res.render("profile", {title:'Profile - '+user.name, user: user})
   }
   else if(user.userType=="restaurant"){
-    res.render("restaurantProfile", {title:'Restaurant Profile - '+user.name, user: user})
+    res.render("Profile", {title:'Restaurant Profile - '+user.name, user: user})
   }
   else{
     res.redirect("/");
@@ -405,17 +405,17 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
 
 app.post('/SaveRestProfile', async (req, res) => {
 
-  const {restoran_ismi,phone,address,mail,opened,closes} = req.body;
+  const {name,phone,address,open,close} = req.body;
 
-  console.log(restoran_ismi,phone,address,mail,opened,closes);
+  console.log(name,phone,address,open,close);
 
 });
 
 app.post('/SaveProfile', async (req, res) => {
 
-  const {name,surname,phone,mail} = req.body;
+  const {name,surname,email} = req.body;
 
-  console.log(name,surname,phone,mail);
+  console.log(name,surname,email);
 
 });
 
