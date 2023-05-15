@@ -226,69 +226,129 @@
     <!-- book section -->
     <section class="book_section layout_padding">
         <div class="container">
-            <div class="heading_container">
-                <h2>Book A Table</h2>
-            </div>
-            <div class="form_container">
-                <form action="">
-                    <div>
-                        <input type="text" class="form-control" placeholder="Your Name" />
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="heading_container">
+                        <h2 class="add-menu">Book A Table</h2>
                     </div>
-                    <div>
-                        <input type="text" class="form-control" placeholder="Phone Number" />
+                    <div class="form_container">
+                        <form action="/degerlendir" method="post">
+                            <div class="center-rate">
+                                <textarea class="form-control" placeholder="Yemeğiniz nasıldı?" rows="10" cols="100"></textarea>
+                            </div>
+                            <div class="center-rate">
+                                <label>Lezzet nasıldı?</label>
+                                <div class="container mt-200">
+                                    <div class="row">  
+                                        <div class="col-md-12">
+                                            <div class="stars">
+                                                <input class="star star-5" id="star-5" type="radio" name="lezzet" value="5"/>
+                                                <label class="star star-5" for="star-5"></label>
+                                                <input class="star star-4" id="star-4" type="radio" name="lezzet" value="4"/>
+                                                <label class="star star-4" for="star-4"></label>
+                                                <input class="star star-3" id="star-3" type="radio" name="lezzet" value="3"/>
+                                                <label class="star star-3" for="star-3"></label>
+                                                <input class="star star-2" id="star-2" type="radio" name="lezzet" value="2"/>
+                                                <label class="star star-2" for="star-2"></label>
+                                                <input class="star star-1" id="star-1" type="radio" name="lezzet" value="1"/>
+                                                <label class="star star-1" for="star-1"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="center-rate">
+                                <label>Hız nasıldı?</label>
+                                <div class="container mt-200">
+                                    <div class="row">  
+                                        <div class="col-md-12">
+                                            <div class="stars2">
+                                                <input class="star2 star-5" id="star2-5" type="radio" name="hiz" value="5"/>
+                                                <label class="star2 star-5" for="star2-5"></label>
+                                                <input class="star2 star-4" id="star2-4" type="radio" name="hiz" value="4"/>                        
+                                                <label class="star2 star-4" for="star2-4"></label>
+                                                <input class="star2 star-3" id="star2-3" type="radio" name="hiz" value="3"/>
+                                                <label class="star2 star-3" for="star2-3"></label>
+                                                <input class="star2 star-2" id="star2-2" type="radio" name="hiz" value="2"/>
+                                                <label class="star2 star-2" for="star2-2"></label>
+                                                <input class="star2 star-1" id="star2-1" type="radio" name="hiz" value="1"/>
+                                                <label class="star2 star-1" for="star2-1"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="center-rate">
+                                <label>Fiyat nasıldı?</label>
+                                <div class="container mt-200">
+                                    <div class="row">  
+                                        <div class="col-md-12">
+                                            <div class="stars3">
+                                                <input class="star3 star3-5" id="star3-5" type="radio" name="fiyat" value="5"/>
+                                                <label class="star3 star3-5" for="star3-5"></label>
+                                                <input class="star3 star3-4" id="star3-4" type="radio" name="fiyat" value="4"/>                        
+                                                <label class="star3 star3-4" for="star3-4"></label>
+                                                <input class="star3 star3-3" id="star3-3" type="radio" name="fiyat" value="3"/>
+                                                <label class="star3 star3-3" for="star3-3"></label>
+                                                <input class="star3 star3-2" id="star3-2" type="radio" name="fiyat" value="2"/>
+                                                <label class="star3 star3-2" for="star3-2"></label>
+                                                <input class="star3 star3-1" id="star3-1" type="radio" name="fiyat" value="1"/>
+                                                <label class="star3 star3-1" for="star3-1"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn_box">
+                                <button>Değerlendir</button>
+                            </div>
+                        </form>
                     </div>
-                    <div>
-                        <input type="email" class="form-control" placeholder="Your Email" />
-                    </div>
-                    <div>
-                        <input type="date" class="form-control">
-                    </div>
-                    <div class="btn_box">
-                        <button>Book Now</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </section>
-    <!-- end book section -->
-
-    <!-- client section -->
-    <section class="client_section layout_padding-bottom client-bottom">
-        <div class="container">
-            <div class="heading_container heading_center psudo_white_primary mb_45">
-                <h2>Müşteri yorumları</h2>
-            </div>
-            <div class="carousel-wrap row ">
-                <div class="owl-carousel client_owl-carousel">
-                    <% comments.forEach((comment) => { %>
-                        <div class="item">
-                            <div class="box">
-                                <div class="detail-box">
-                                    <p><%=comment.comment%></p>
-                                    <h6><%=comment.user.name%></h6>
-                                    <%let averageStars = (comment.star.speed+comment.star.taste+comment.star.price)/3; %>
-                                    <% let fullStars = Math.floor(averageStars); %>
-                                    <% let hasHalfStar = averageStars - fullStars >= 0.5; %>
-                                    <% let emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); %>
-                                    <% for (let k = 0; k < fullStars; k++) { %>
-                                      <i class="fa fa-star rating-color"></i>
-                                    <% } %>
-                                    <% if (hasHalfStar) { %>
-                                      <i class="fa-solid fa-star-half-stroke rating-color"></i>
-                                    <% } %>
-                                    <% for (let k = 0; k < emptyStars; k++) { %>
-                                      <i class="fa fa-star"></i>
-                                    <% } %>
-                                  <% if (averageStars > 0) { %>
-                                      <p>Puan: <%= Math.floor(averageStars * 10) / 10 %></p>
-                                  <% } %>
+                </div>
+                <div class="col-md-9">
+                    <!-- client section -->
+                    <section class="client_section layout_padding-bottom">
+                        <div class="container">
+                            <div class="heading_container heading_center psudo_white_primary mb_45">
+                                <h2>Müşteri yorumları</h2>
+                            </div>
+                            <div class="carousel-wrap row ">
+                                <div class="owl-carousel client_owl-carousel">
+                                    <% comments.forEach((comment) => { %>
+                                        <div class="item">
+                                            <div class="box">
+                                                <div class="detail-box">
+                                                    <p><%=comment.comment%></p>
+                                                    <h6><%=comment.user.name%></h6>
+                                                    <%let averageStars = (comment.star.speed+comment.star.taste+comment.star.price)/3; %>
+                                                    <% let fullStars = Math.floor(averageStars); %>
+                                                    <% let hasHalfStar = averageStars - fullStars >= 0.5; %>
+                                                    <% let emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); %>
+                                                    <% for (let k = 0; k < fullStars; k++) { %>
+                                                      <i class="fa fa-star rating-color"></i>
+                                                    <% } %>
+                                                    <% if (hasHalfStar) { %>
+                                                      <i class="fa-solid fa-star-half-stroke rating-color"></i>
+                                                    <% } %>
+                                                    <% for (let k = 0; k < emptyStars; k++) { %>
+                                                      <i class="fa fa-star"></i>
+                                                    <% } %>
+                                                  <% if (averageStars > 0) { %>
+                                                      <p>Puan: <%= Math.floor(averageStars * 10) / 10 %></p>
+                                                  <% } %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% }); %>
                                 </div>
                             </div>
                         </div>
-                    <% }); %>
+                    </section>
+                    <!-- end client section -->
                 </div>
             </div>
         </div>
     </section>
-    <!-- end client section -->
+    <!-- end book section -->
+    
 <%- include('partials/footer') %>
