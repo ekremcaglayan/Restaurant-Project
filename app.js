@@ -463,3 +463,12 @@ app.get("/:navigation", function(req, res){
     res.render(navigation, {title: navigation, user: user});
   }
 });
+
+app.post('/degerlendir', (req, res) => {
+  const lezzet = req.body.lezzet;
+  const hiz = req.body.hiz;
+  const fiyat = req.body.fiyat;
+
+  console.log(`Lezzet: ${lezzet}, Hız: ${hiz}, Fiyat: ${fiyat}`);
+  res.send('Değerlendirme alındı.');
+});
