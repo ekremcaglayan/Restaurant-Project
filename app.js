@@ -419,6 +419,21 @@ app.post('/SaveProfile', async (req, res) => {
 
 });
 
+// app.post('/addMenu', async (req, res) => {
+
+//   const { name, content, price, image, user, category, base } = req.body;
+
+//   try {
+//     const newFood = new Food({ name, content, price, image, user, category, base });
+//     newFood.save();
+//     res.redirect('/'); 
+//   } catch (error) {
+//     console.error(error);
+//     res.render('hata', { mesaj: 'Yemek kaydedilirken hata oluştu.' });
+//   }
+
+// });
+
 app.get('/restoranlar', async (req, res) => {
 
   try{

@@ -1156,5 +1156,28 @@ option{
 
 .add-button{
   position: relative;
-  left: 45%;
+  text-align: center;
+}
+
+.input-border{
+  border: none;
+  background-color: #f1f2f3;
+  margin-top: 20px;
+}
+
+.input-margin{
+  margin-top: 10px;
+}
+
+/* .btn-light{
+  background-color: #FFF;
+  color: #000;
+} */
+
+.input-image{
+  text-align: center;
+  margin: auto;
+  background-color: white;
+  border-radius: var(--bs-border-radius);
+  padding: 0.375rem 0.75rem;
 }

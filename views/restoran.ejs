@@ -64,10 +64,46 @@
 
             <div class="add-button">
                 <li class="list-inline-item">
-                    <button class="btn btn-success btn-sm rounded-0" type="button" data-bs-toggle="tooltip" data-placement="top" title="Edit"><i class="fa-sharp fa-solid fa-plus"></i> Yemek Ekle</button>
+                    <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        <i class="fa-sharp fa-solid fa-plus"></i> Yemek Ekle
+                    </button>
                 </li>
             </div>
-
+            <form action="/addMenu" method="post">
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body input-border">
+                        <div class="row">
+                            <div class=".col-12 col-md-12 col-lg-4">
+                                <input type="text" placeholder="Yemek adını giriniz." class="form-control input-margin">
+                            </div>
+                            <div class=".col-12 col-md-12 col-lg-4">
+                                <input type="text" placeholder="Yemek içeriğini giriniz." class="form-control input-margin">
+                            </div>
+                            <div class=".col-12 col-md-12 col-lg-4">
+                                <input type="text" placeholder="Yemek fiyatını giriniz." class="form-control input-margin">
+                            </div>
+                            <div class=".col-12 col-md-12 col-lg-6">
+                                <select name="baseSelect" id="base-select" class="w-100 selectpicker input-margin" title="Yemek kategorisi seçiniz." data-dropup-auto="false" multiple required>
+                                </select>
+                            </div>
+                            <div class=".col-12 col-md-12 col-lg-6">
+                                <select name="categorySelect" id="category-select" class="w-100 selectpicker input-margin" title="Genel yemek kategorisi seçiniz." data-dropup-auto="false" multiple required>
+                                </select>
+                            </div>
+                            <input type="hidden" class="form-control input-margin">
+                        </div>
+                        <br>
+                        <div class="custom-file input-image">
+                            <input type="file" class="custom-file-input" id="inputGroupFile01">
+                            <label class="custom-file-label" for="inputGroupFile01">Görsel İçin Dosya Seçin</label>
+                        </div>
+                        <br>
+                        <div class="add-button">
+                            <button type="button" class="btn btn-success">Ekle</button>
+                        </div>
+                    </div>                
+                </div>
+            </form>
 
             <div class="filters-content">
                 <div class="row grid">
@@ -193,33 +229,24 @@
             <div class="heading_container">
                 <h2>Book A Table</h2>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form_container">
-                        <form action="">
-                            <div>
-                                <input type="text" class="form-control" placeholder="Your Name" />
-                            </div>
-                            <div>
-                                <input type="text" class="form-control" placeholder="Phone Number" />
-                            </div>
-                            <div>
-                                <input type="email" class="form-control" placeholder="Your Email" />
-                            </div>
-                            <div>
-                                <input type="date" class="form-control">
-                            </div>
-                            <div class="btn_box">
-                                <button>Book Now</button>
-                            </div>
-                        </form>
+            <div class="form_container">
+                <form action="">
+                    <div>
+                        <input type="text" class="form-control" placeholder="Your Name" />
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="map_container ">
-                        <div id="googleMap"></div>
+                    <div>
+                        <input type="text" class="form-control" placeholder="Phone Number" />
                     </div>
-                </div>
+                    <div>
+                        <input type="email" class="form-control" placeholder="Your Email" />
+                    </div>
+                    <div>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="btn_box">
+                        <button>Book Now</button>
+                    </div>
+                </form>
             </div>
         </div>
     </section>
