@@ -13,18 +13,18 @@
                     <form action="/test" method="post">
                         <div class="row justify-content-center collapse" id="collapseSearch">
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
-                                <select name="baseSelect" id="base-select" class="w-100 selectpicker" data-style="btn-select" title="Yemek Seçiniz..." data-dropup-auto="false" onchange="onBaseSelectChange()" multiple>
+                                <select name="baseSelect" id="base-select" class="w-100 selectpicker" data-style="btn-select" title="Yemek Seçiniz..." data-dropup-auto="false" onchange="onBaseSelectChange()" multiple required>
                                     <% baseFoods.forEach(function(baseFood) { %>
                                         <option data-icon="<%= baseFood.icon %>" value="<%= baseFood._id %>"><%= baseFood.name %></option>
                                       <% }) %>
                                 </select>
                             </div>
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
-                                <select disabled name="categorySelect" id="category-select" class="w-100 selectpicker" data-style="btn-select" title="Genel Yemek Seçiniz..." data-dropup-auto="false" onchange="onCategorySelectChange()" multiple >
+                                <select disabled name="categorySelect" id="category-select" class="w-100 selectpicker" data-style="btn-select" title="Genel Yemek Seçiniz..." data-dropup-auto="false" onchange="onCategorySelectChange()" multiple required>
                                 </select>
                             </div>
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
-                                <select disabled name="foodSelect" id="food-select" class="w-100 selectpicker" data-style="btn-select" multiple title="Restoranda sizin için ne önemli?" data-dropup-auto="false" >
+                                <select disabled name="foodSelect" id="food-select" class="w-100 selectpicker" data-style="btn-select" multiple title="Restoranda sizin için ne önemli?" data-dropup-auto="false" multiple required>
                                 </select>
                             </div>
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
