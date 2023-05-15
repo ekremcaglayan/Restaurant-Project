@@ -413,9 +413,22 @@ app.post('/SaveRestProfile', async (req, res) => {
 
 app.post('/SaveProfile', async (req, res) => {
 
-  const {name,surname,email} = req.body;
+  const {name,surname,email, userId} = req.body;
 
-  console.log(name,surname,email);
+  const user = await User.findOneAndUpdate(
+    { _id: userId },
+    { email: email, name: name, surname: surname },
+    { new: true }
+  ).populate('restaurant').exec();
+
+  if (!user) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+
+  req.session.user = user;
+  res.redirect("/profile");
+  
+  console.log(name,surname,email, userId);
 
 });
 
