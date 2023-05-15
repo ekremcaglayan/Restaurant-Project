@@ -301,7 +301,7 @@ app.get("/profile", function(req,res){
     res.render("profile", {title:'Profile - '+user.name, user: user})
   }
   else if(user.userType=="restaurant"){
-    res.render("Profile", {title:'Restaurant Profile - '+user.name, user: user})
+    res.render("profile", {title:'Restaurant Profile - '+user.name, user: user})
   }
   else{
     res.redirect("/");
