@@ -50,7 +50,12 @@
                             <span class="text-black-50">Açılış - Kapanış: <%=user.restaurant.open%> - <%=user.restaurant.close%></span>
                             <br>
                             <h2>Menü</h2>
-                            <div class="mt-1 text-center"><button class="btn btn-dark profile-button" type="button">Düzenle</button></div>
+                            <div class="mt-1 text-center">
+                                <a href="/restaurants/<%=user.restaurant._id%>">
+                                  <button class="btn btn-dark profile-button" type="button">Düzenle</button>
+                                </a>
+                              </div>
+                              
                     </div> 
                 </div>
                 <div class="col-md-8 border-right">
@@ -81,6 +86,7 @@
                                 <input type="text" name="close" class="form-control" placeholder="<%=user.restaurant.close%>" value="<%=user.restaurant.close%>">
                             </div>
                         </div>
+                        <input type="hidden" name="restaurantId" value="<%=user.restaurant._id%>">
                         <div class="mt-4 text-center"><button class="btn btn-dark btn-lg profile-button" type="submit">Kaydet</button></div>
                         </form>
                     </div>

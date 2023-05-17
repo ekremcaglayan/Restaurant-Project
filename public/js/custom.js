@@ -194,6 +194,9 @@ function onBaseSelectChange() {
         categorySelect.disabled = true;
         $('#category-select').selectpicker('destroy');
         $('#category-select').selectpicker('render');
+        foodSelect.disabled = true;
+        $('#food-select').selectpicker('destroy');
+        $('#food-select').selectpicker('render');
     }
   }
   
@@ -207,6 +210,8 @@ function onBaseSelectChange() {
     const categorySelect = document.getElementById("category-select");
     const selectedCategoryIds = [...categorySelect.selectedOptions].map(option => option.value); // get an array of selected base food IDs
 
+
+    if (selectedCategoryIds.length > 0) {
     const foodSelect = document.getElementById("food-select");
 
     // disable the category and food selects while loading new data
@@ -226,11 +231,60 @@ function onBaseSelectChange() {
         $('#food-select').selectpicker('render');
       })
       .catch(error => console.log(error));
+    }else if(selectedCategoryIds.length == 0){
+        const categorySelect = document.getElementById("category-select");
+        const foodSelect = document.getElementById("food-select");
+        foodSelect.disabled = true;
+        $('#food-select').selectpicker('destroy');
+        $('#food-select').selectpicker('render');
+    }
   }
 
+
+  //restoran yorum kutusu auto-size
   $("textarea").each(function () {
     this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
    }).on("input", function () {
     this.style.height = 0;
     this.style.height = (this.scrollHeight) + "px";
    });
+
+   function submitRating(event) {
+    const tasteRating = document.getElementsByName("taste"); // get all radio buttons with name "taste"
+    const speedRating = document.getElementsByName("speed");
+    const priceRating = document.getElementsByName("price");
+    let selectedTasteRating = false;
+    let selectedSpeedRating = false;
+    let selectedPriceRating = false;
+    for (let i = 0; i < tasteRating.length; i++) {
+        if (tasteRating[i].checked) {
+            selectedTasteRating = true;
+            break;
+        }
+    }
+    for (let i = 0; i < speedRating.length; i++) {
+        if (speedRating[i].checked) {
+            selectedSpeedRating = true;
+            break;
+        }
+    }
+    for (let i = 0; i < priceRating.length; i++) {
+        if (priceRating[i].checked) {
+            selectedPriceRating = true;
+            break;
+        }
+    }
+    if (!selectedTasteRating || !selectedSpeedRating || !selectedPriceRating) {
+        const errorMessage = document.getElementById("error-message");
+        errorMessage.classList.add('alert', 'alert-danger');
+        errorMessage.innerHTML = "En az 1 yıldız puanı vermelisiniz."; // display error message
+        event.preventDefault();
+        return false;
+    }
+    else{
+        const errorMessage = document.getElementById("error-message");
+        errorMessage.classList.remove('alert','alert-danger')
+        errorMessage.innerHTML = ""; // display error message
+    }
+    return true;
+}

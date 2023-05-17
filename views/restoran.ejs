@@ -55,7 +55,7 @@
                 <% foods.forEach((food) => { %>
                     <% food.category.forEach((category) => { %>
                     <% if (category.name && !categoryNames.includes(category.name)) { %>
-                        <li data-filter=".<%= category.name.toLowerCase() %>"><%= category.name %></li>
+                        <li data-filter=".<%= category.name.toLowerCase().replace(/\s+/g, '').replace(/[^\w\s]/gi, '') %>"><%= category.name %></li>
                         <% categoryNames.push(category.name); %>
                     <% } %>
                     <% }); %>
@@ -113,11 +113,16 @@
                 <div class="row grid">
                     <% foods.forEach((food) => { %>
                         <div class="col-sm-6 col-lg-4 all <% food.category.forEach((category) => { %> 
-                            <%=category.name.toLowerCase()+" ";%><% });%>">
+                            <%=category.name.toLowerCase().replace(/\s+/g, '').replace(/[^\w\s]/gi, '')+" ";%><% });%>">
                             <div class="box">
                                 <div class="img-box">
-                                    <img src="/images/<%= food.image %>" alt="">
-                                </div>
+                                    <% if (food.image) { %>
+                                       <img src="/images/<%= food.image %>" alt="">
+                                    <% } else { %>
+                                       <i class="fa-solid fa-plate-utensils fa-10x"></i>
+                                    <% } %>
+                                 </div>
+                                 
                                 <div class="detail-box">
                                     <h5><%= food.name %></h5>
                                     <p><%= food.content %></p>
@@ -241,7 +246,7 @@
                     <div class="form_container">
                         <form action="/degerlendir" method="post">
                             <div class="center-rate">
-                                <textarea class="form-control" placeholder="Yemeğiniz nasıldı?" rows="10" cols="100"></textarea>
+                                <textarea required name="comment" class="form-control" placeholder="Yemeğiniz nasıldı?" rows="10" cols="100"></textarea>
                             </div>
                             <div class="center-rate">
                                 <label>Lezzet nasıldı?</label>
@@ -249,15 +254,15 @@
                                     <div class="row">  
                                         <div class="col-md-12">
                                             <div class="stars">
-                                                <input class="star star-5" id="star-5" type="radio" name="lezzet" value="5"/>
+                                                <input class="star star-5" id="star-5" type="radio" name="taste" value="5"/>
                                                 <label class="star star-5" for="star-5"></label>
-                                                <input class="star star-4" id="star-4" type="radio" name="lezzet" value="4"/>
+                                                <input class="star star-4" id="star-4" type="radio" name="taste" value="4"/>
                                                 <label class="star star-4" for="star-4"></label>
-                                                <input class="star star-3" id="star-3" type="radio" name="lezzet" value="3"/>
+                                                <input class="star star-3" id="star-3" type="radio" name="taste" value="3"/>
                                                 <label class="star star-3" for="star-3"></label>
-                                                <input class="star star-2" id="star-2" type="radio" name="lezzet" value="2"/>
+                                                <input class="star star-2" id="star-2" type="radio" name="taste" value="2"/>
                                                 <label class="star star-2" for="star-2"></label>
-                                                <input class="star star-1" id="star-1" type="radio" name="lezzet" value="1"/>
+                                                <input class="star star-1" id="star-1" type="radio" name="taste" value="1"/>
                                                 <label class="star star-1" for="star-1"></label>
                                             </div>
                                         </div>
@@ -270,16 +275,16 @@
                                     <div class="row">  
                                         <div class="col-md-12">
                                             <div class="stars2">
-                                                <input class="star2 star-5" id="star2-5" type="radio" name="hiz" value="5"/>
-                                                <label class="star2 star-5" for="star2-5"></label>
-                                                <input class="star2 star-4" id="star2-4" type="radio" name="hiz" value="4"/>                        
-                                                <label class="star2 star-4" for="star2-4"></label>
-                                                <input class="star2 star-3" id="star2-3" type="radio" name="hiz" value="3"/>
-                                                <label class="star2 star-3" for="star2-3"></label>
-                                                <input class="star2 star-2" id="star2-2" type="radio" name="hiz" value="2"/>
-                                                <label class="star2 star-2" for="star2-2"></label>
-                                                <input class="star2 star-1" id="star2-1" type="radio" name="hiz" value="1"/>
-                                                <label class="star2 star-1" for="star2-1"></label>
+                                                <input class="star2 star2-5" id="star2-5" type="radio" name="speed" value="5"/>
+                                                <label class="star2 star2-5" for="star2-5"></label>
+                                                <input class="star2 star2-4" id="star2-4" type="radio" name="speed" value="4"/>                        
+                                                <label class="star2 star2-4" for="star2-4"></label>
+                                                <input class="star2 star2-3" id="star2-3" type="radio" name="speed" value="3"/>
+                                                <label class="star2 star2-3" for="star2-3"></label>
+                                                <input class="star2 star2-2" id="star2-2" type="radio" name="speed" value="2"/>
+                                                <label class="star2 star2-2" for="star2-2"></label>
+                                                <input class="star2 star2-1" id="star2-1" type="radio" name="speed" value="1"/>
+                                                <label class="star2 star2-1" for="star2-1"></label>
                                             </div>
                                         </div>
                                     </div>
@@ -291,23 +296,25 @@
                                     <div class="row">  
                                         <div class="col-md-12">
                                             <div class="stars3">
-                                                <input class="star3 star3-5" id="star3-5" type="radio" name="fiyat" value="5"/>
+                                                <input class="star3 star3-5" id="star3-5" type="radio" name="price" value="5"/>
                                                 <label class="star3 star3-5" for="star3-5"></label>
-                                                <input class="star3 star3-4" id="star3-4" type="radio" name="fiyat" value="4"/>                        
+                                                <input class="star3 star3-4" id="star3-4" type="radio" name="price" value="4"/>                        
                                                 <label class="star3 star3-4" for="star3-4"></label>
-                                                <input class="star3 star3-3" id="star3-3" type="radio" name="fiyat" value="3"/>
+                                                <input class="star3 star3-3" id="star3-3" type="radio" name="price" value="3"/>
                                                 <label class="star3 star3-3" for="star3-3"></label>
-                                                <input class="star3 star3-2" id="star3-2" type="radio" name="fiyat" value="2"/>
+                                                <input class="star3 star3-2" id="star3-2" type="radio" name="price" value="2"/>
                                                 <label class="star3 star3-2" for="star3-2"></label>
-                                                <input class="star3 star3-1" id="star3-1" type="radio" name="fiyat" value="1"/>
+                                                <input class="star3 star3-1" id="star3-1" type="radio" name="price" value="1"/>
                                                 <label class="star3 star3-1" for="star3-1"></label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div id="error-message"></div>
+                            <input type="hidden" name="restaurantId" value="<%=restaurant._id%>">
                             <div class="btn_box">
-                                <button>Değerlendir</button>
+                                <button onclick="submitRating(event)">Değerlendir</button>
                             </div>
                         </form>
                     </div>

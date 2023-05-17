@@ -409,8 +409,25 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
 
 
 app.post('/SaveRestProfile', async (req, res) => {
+    const {name,phone,address,open,close,restaurantId} = req.body;
+  
+   const restaurant = await Restaurant.findOneAndUpdate(
+    { _id: restaurantId },
+    { close: close, location: address, name: name , number: phone ,open : open },
+    { new: true }
+  ).exec();
 
-  const {name,phone,address,open,close} = req.body;
+  if (!restaurant) {
+    return res.status(404).json({ error: 'User not found' });
+  }
+
+  const user = await User.findOne({ restaurant: restaurantId }).populate('restaurant').exec();
+  if (!user) {
+    return res.status(404).send("User not found");
+  }
+
+  req.session.user = user;
+  res.redirect("/profile");
 
   console.log(name,phone,address,open,close);
 
@@ -504,11 +521,21 @@ app.get("/:navigation", function(req, res){
   }
 });
 
-app.post('/degerlendir', (req, res) => {
-  const lezzet = req.body.lezzet;
-  const hiz = req.body.hiz;
-  const fiyat = req.body.fiyat;
+app.post('/degerlendir', async (req, res) => {
+  try {
+    const { comment, taste, speed, price, restaurantId } = req.body;
+    const { user } = req.session;
+    
+    const newStar = await Stars.create({ speed: speed, taste: taste, price: price, restaurant: restaurantId });
+    const starId = newStar._id;
 
-  console.log(`Lezzet: ${lezzet}, Hız: ${hiz}, Fiyat: ${fiyat}`);
-  res.send('Değerlendirme alındı.');
+    if (comment) {
+      await Comments.create({ comment: comment, restaurant: restaurantId, user, star: starId });
+    }
+
+    res.redirect(`/restaurants/${restaurantId}`);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
+  }
 });
