@@ -5,7 +5,7 @@
         <div class="container">
             <div class="heading_container heading_center">
                 <div class="row">
-                    <div class="col-lg-5">
+                    <div class="col-lg-4">
                         <h2><%=restaurant.name%></h2>
                             <% let fullStars = Math.floor(averageStars); %>
                             <% let hasHalfStar = averageStars - fullStars >= 0.5; %>
@@ -23,7 +23,7 @@
                               <p>Puan: <%= Math.floor(averageStars * 10) / 10 %></p>
                           <% } %>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-6">
                         <p class="restaurant-info"><i class="fa fa-phone-square" aria-hidden="true"></i> <%=restaurant.number%></p>
                         <p class="restaurant-info">Çalışma Saatleri: <%=restaurant.open%> - <%=restaurant.close%></p>
                     </div>
@@ -123,7 +123,7 @@
                                     <% } %>
                                  </div>
                                  
-                                <div class="detail-box">
+                                <div class="detail-box box-size">
                                     <h5><%= food.name %></h5>
                                     <p><%= food.content %></p>
                                     <div class="options">
@@ -144,91 +144,10 @@
                                 </div>
                             </div>
                         </div>
-                    <% }); %>
-                    <!--<div class="col-sm-6 col-lg-4 all pizza">
-                        <div class="box">
-                            <div class="img-box">
-                                <img src="/images/f1.png" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h5>Sebzeli Pizza</h5>
-                                <p>Biber, kabak, mısır, peynir, domates ve fesleğenli pizza. İsteğe bağlı mozarella peyniri ile servis edilir.</p>
-                                <div class="options">
-                                    <h6>100₺</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4 all burger">
-                        <div class="box">
-                            <div class="img-box">
-                                <img src="/images/f2.png" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h5>Klasik Burger</h5>
-                                <p>Özel hamburger koftesi, kıvırcık, domates, turşu, patates kızartması coslow ve garlic sos ile servis edilir.</p>
-                                <div class="options">
-                                    <h6>80₺</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4 all pizza">
-                        <div class="box">
-                            <div class="img-box">
-                                <img src="/images/f3.png" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h5>Karışık Pizza</h5>
-                                <p>Mantar, kaşar peyniri, domates, sucuk, salam ve sosisli pizza.Dilerseniz ek malzeme ekletebilirsiniz.</p>
-                                <div class="options">
-                                    <h6>120₺</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4 all pasta">
-                        <div class="box">
-                            <div class="img-box">
-                                <img src="/images/f4.png" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h5>Sebzeli Makarna</h5>
-                                <p>Taze sebzeler ve ev yapımı makarna ile hazırlanan bu yemek, hem sağlıklı hem de doyurucu bir seçenektir. </p>
-                                <div class="options">
-                                    <h6>70₺</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4 all fries">
-                        <div class="box">
-                            <div class="img-box">
-                                <img src="/images/f5.png" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h5>Patates Kızartması</h5>
-                                <p>Patates kızartması, hafifçe çıtır çıtır olması ve lezzetli patates içi ile birleşmesi nedeniyle popüler bir seçenektir. </p>
-                                <div class="options">
-                                    <h6>50₺</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-lg-4 all pizza">
-                        <div class="box">
-                            <div class="img-box">
-                                <img src="/images/f6.png" alt="">
-                            </div>
-                            <div class="detail-box">
-                                <h5>Leziz Pizza</h5>
-                                <p>Mantar, kaşar peyniri, domates, sucuk, salam ve sosisli pizza.Dilerseniz ek malzeme ekletebilirsiniz.</p>
-                                <div class="options">
-                                    <h6>120₺</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
+                    <% }); %>                   
+                </div>
+                <div class="btn-box">
+                    <a href="">View More</a>
                 </div>
             </div>
         </div>

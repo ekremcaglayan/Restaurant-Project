@@ -1304,3 +1304,8 @@ label.star3:before {
 .center-rate{
   text-align: center;
 }
+
+.box-size{
+  width: 370px;
+  height: 220px;
+}
