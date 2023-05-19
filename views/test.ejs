@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Anasayfa</title>
+</head>
+<body>
+  <h1>Restoranlar</h1>
+  <% restaurants.forEach(restaurant => { %>
+    <h2><%= restaurant.name %> (ID: <%= restaurant.id %>)</h2>
+    <p><%= restaurant.count %> kez tekrar ediyor</p>
+    <h3>Yiyecekler:</h3>
+    <ul>
+      <% restaurant.foods.forEach(food => { %>
+        <li>
+          <p>İsim: <%= food.name %></p>
+          <p>Kategori: <%= food.category %></p>
+          <p>Base: <%= food.base %></p>
+          <!-- Diğer food özelliklerini buraya ekleyebilirsin -->
+        </li>
+      <% }) %>
+    </ul>
+    <h3>Restoran Bilgileri:</h3>
+    <p>Adres: <%= restaurant.restaurant.location %></p>
+    <p>Telefon: <%= restaurant.restaurant.number %></p>
+    <!-- Diğer restoran özelliklerini buraya ekleyebilirsin -->
+  <% }) %>
+</body>
+</html>

@@ -308,12 +308,68 @@ app.get("/profile", function(req,res){
   }
 });
 
-app.post("/test", function(req,res){
-  console.log(req.body.baseSelect);
-  console.log(req.body.categorySelect);
-  console.log(req.body.foodSelect);
-  res.redirect("/");
+app.post("/test", async (req, res) => {
+  const { baseSelect, categorySelect, priorities } = req.body;
+  try {
+    const foods = await Food.find({
+      category: { $in: categorySelect },
+      base: { $in: baseSelect }
+    })
+      .populate({
+        path: "user",
+        populate: {
+          path: "restaurant",
+          model: "Restaurant"
+        }
+      })
+      .exec();
+    if (!foods) {
+      return res.status(404).send("foods not found");
+    }
+
+    const restaurantCounts = {};
+    const restaurantData = [];
+
+    foods.forEach(food => {
+      const restaurantName = food.user.restaurant.name;
+      const restaurantId = food.user.restaurant._id;
+
+      if (restaurantCounts.hasOwnProperty(restaurantName)) {
+        restaurantCounts[restaurantName]++;
+      } else {
+        restaurantCounts[restaurantName] = 1;
+        const restaurantInfo = {
+          name: restaurantName,
+          id: restaurantId,
+          count: 0,
+          foods: [],
+          restaurant: food.user.restaurant
+        };
+        restaurantData.push(restaurantInfo);
+      }
+
+      const restaurantInfo = restaurantData.find(info => info.name === restaurantName);
+      restaurantInfo.count++;
+      restaurantInfo.foods.push(food);
+    });
+
+    for (const restaurantInfo of restaurantData) {
+      restaurantInfo.foods = restaurantInfo.foods.map(food => ({
+        name: food.name,
+        category: food.category,
+        base: food.base,
+        // Diğer food özelliklerini buraya ekleyebilirsin
+      }));
+    }
+
+    res.render("test", { restaurants: restaurantData });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Restoran aranırken bir hata oluştu.' });
+  }
 });
+
+
 
 
 app.get('/base/:baseIds/categories', (req, res) => {
@@ -474,20 +530,51 @@ app.post('/addFood', async (req, res) => {
 
 });
 
-app.post('/foodDelete', async(req, res) => {
-
-  try {
-    const foodId = req.body.foodId;
-    const restaurantId = req.body.restaurantId;
-    const foodDelete = await Food.findByIdAndDelete(foodId).exec();
-    if (!foodDelete) {
-        return res.status(409).json({ message: 'Hata!' });
-    }
-    res.redirect(`/restaurants/${restaurantId}`);
-  } catch (err) {
-      console.error(err);
-      return res.status(500).json({ message: 'Hata' });
+app.post('/foodAction', async(req, res) => {
+  const { action, foodName, foodId, foodContent, foodPrice} = req.body;
+  const secondAction = Array.isArray(action) ? action[1] : action;
+  if(action[1]){
+    const secondAction = Array.isArray(action) ? action[1] : action;
   }
+  console.log(action, foodName, foodId, foodContent, foodPrice, secondAction);
+  if(secondAction == "update"){
+    try {
+      const { foodId, restaurantId, foodName, foodContent, foodPrice } = req.body;
+
+      const firstFoodName = Array.isArray(foodName) ? foodName[0] : foodName;
+      const firstFoodContent = Array.isArray(foodContent) ? foodContent[0] : foodContent;
+      const firstFoodPrice = Array.isArray(foodPrice) ? foodPrice[0] : foodPrice;
+      
+      const food = await Food.findOneAndUpdate(
+        { _id: foodId },
+        { name: firstFoodName, content: firstFoodContent, price: firstFoodPrice},
+        { new: true }
+      ).exec();
+    
+      if (!food) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      res.redirect(`/restaurants/${restaurantId}`);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Hata' });
+    }
+  }
+  else if(action =="delete"){
+    try {
+      const foodId = req.body.foodId;
+      const restaurantId = req.body.restaurantId;
+      const foodDelete = await Food.findByIdAndDelete(foodId).exec();
+      if (!foodDelete) {
+          return res.status(409).json({ message: 'Hata!' });
+      }
+      res.redirect(`/restaurants/${restaurantId}`);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Hata' });
+    }
+  }
+
 });
 
 

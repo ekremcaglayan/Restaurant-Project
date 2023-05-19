@@ -20,11 +20,14 @@
                                 </select>
                             </div>
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
-                                <select disabled name="categorySelect" id="category-select" class="w-100 selectpicker" data-style="btn-select" title="Genel Yemek Seçiniz..." data-dropup-auto="false" onchange="onCategorySelectChange()" multiple required>
+                                <select disabled name="categorySelect" id="category-select" class="w-100 selectpicker" data-style="btn-select" title="Genel Yemek Seçiniz..." data-dropup-auto="false" onchange="" multiple required>
                                 </select>
                             </div>
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
-                                <select disabled name="foodSelect" id="food-select" class="w-100 selectpicker" data-style="btn-select" multiple title="Restoranda sizin için ne önemli?" data-dropup-auto="false" multiple required>
+                                <select name="priorities" id="priorities" class="w-100 selectpicker" data-style="btn-select" multiple title="Restoranda sizin için ne önemli?" data-dropup-auto="false" multiple required>
+                                  <option data-icon="fa-duotone fa-bell-concierge" value="Hiz">Hız</option>
+                                  <option data-icon="fa-solid fa-face-smile-tongue" value="Tat">Tat</option>
+                                  <option data-icon="fa-solid fa-badge-dollar" value="Fiyat">Fiyat</option>
                                 </select>
                             </div>
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">

@@ -170,11 +170,11 @@ function onBaseSelectChange() {
   
     if (selectedBaseIds.length > 0) {
       const categorySelect = document.getElementById("category-select");
-      const foodSelect = document.getElementById("food-select");
+      //const foodSelect = document.getElementById("food-select");
   
       // disable the category and food selects while loading new data
       categorySelect.disabled = true;
-      foodSelect.disabled = true;
+      //foodSelect.disabled = true;
   
       // send an AJAX request to get the categories for the selected base foods
       fetch(`/base/${selectedBaseIds.join(",")}/categories`)
@@ -190,13 +190,13 @@ function onBaseSelectChange() {
         .catch(error => console.log(error));
     }else if(selectedBaseIds.length == 0){
         const categorySelect = document.getElementById("category-select");
-        const foodSelect = document.getElementById("food-select");
+        //const foodSelect = document.getElementById("food-select");
         categorySelect.disabled = true;
         $('#category-select').selectpicker('destroy');
         $('#category-select').selectpicker('render');
-        foodSelect.disabled = true;
-        $('#food-select').selectpicker('destroy');
-        $('#food-select').selectpicker('render');
+        //foodSelect.disabled = true;
+        //$('#food-select').selectpicker('destroy');
+        //$('#food-select').selectpicker('render');
     }
   }
   
@@ -212,31 +212,31 @@ function onBaseSelectChange() {
 
 
     if (selectedCategoryIds.length > 0) {
-    const foodSelect = document.getElementById("food-select");
+    //const foodSelect = document.getElementById("food-select");
 
     // disable the category and food selects while loading new data
     //categorySelect.disabled = true;
-    foodSelect.disabled = true;
+    //foodSelect.disabled = true;
 
     // send an AJAX request to get the categories for the selected base foods
     fetch(`/category/${selectedCategoryIds.join(",")}/${selectedBaseIds.join(",")}/foods`)
       .then(response => response.json())
       .then(foods => {
         // populate the category select with the retrieved categories
-        foodSelect.innerHTML = `${foods.map(food => `<option value="${food._id}">${food.name}</option>`).join("")}`;
+        //foodSelect.innerHTML = `${foods.map(food => `<option value="${food._id}">${food.name}</option>`).join("")}`;
 
         // enable the category select
         foodSelect.disabled = false;
-        $('#food-select').selectpicker('destroy');
-        $('#food-select').selectpicker('render');
+        //$('#food-select').selectpicker('destroy');
+        //$('#food-select').selectpicker('render');
       })
       .catch(error => console.log(error));
     }else if(selectedCategoryIds.length == 0){
         const categorySelect = document.getElementById("category-select");
-        const foodSelect = document.getElementById("food-select");
-        foodSelect.disabled = true;
-        $('#food-select').selectpicker('destroy');
-        $('#food-select').selectpicker('render');
+        //const foodSelect = document.getElementById("food-select");
+        //foodSelect.disabled = true;
+        //$('#food-select').selectpicker('destroy');
+        //$('#food-select').selectpicker('render');
     }
   }
 
@@ -288,3 +288,68 @@ function onBaseSelectChange() {
     }
     return true;
 }
+
+$(document).ready(function() {
+    $(".edit-button").click(function() {
+        var foodId = $(this).data("food-id");
+        var foodName = $("#foodName_" + foodId).text();
+        var foodContent = $("#foodContent_" + foodId).text();
+        var foodPrice = $("#foodPrice_" + foodId).text();
+
+        // Formun içeriğini düzenlenebilir hale getir
+        $("#foodName_" + foodId).html("<input type='text' class='form-control' name='foodName' value='" + foodName + "'>");
+        $("#foodContent_" + foodId).html("<textarea class='form-control' name='foodContent'>" + foodContent + "</textarea>");
+        $("#foodPrice_" + foodId).html("<input type='number' class='form-control' name='foodPrice' value='" + foodPrice + "'>");
+
+        // Edit butonunu gizle
+        $(this).hide();
+
+        // Güncelle butonunu ekle
+        var updateButton = "<li class='list-inline-item guncelle'><button class='btn btn-success btn-sm update-button' type='submit'><i class='fa-solid fa-check'></i></button></li>";
+        $(this).closest(".edit-buttons").find("form").append(updateButton);
+
+        // Kapatma butonunu ekle
+        var cancelButton = "<li class='list-inline-item sil'><button class='btn btn-secondary btn-sm cancel-button' type='button'><i class='fa-solid fa-xmark'></i></button></li>";
+        $(this).closest(".edit-buttons").find("form").append(cancelButton);
+
+        // Güncelleme butonuna tıklanınca değerleri güncelle
+        $(document).on("click", ".update-button", function(event) {
+            event.preventDefault(); // Formun varsayılan submit işlemini engelle
+
+            var updatedFoodName = $("#foodName_" + foodId + " input[name='foodName']").val();
+            var updatedFoodContent = $("#foodContent_" + foodId + " textarea[name='foodContent']").val();
+            var updatedFoodPrice = $("#foodPrice_" + foodId + " input[name='foodPrice']").val();
+
+            // Değerleri güncelle
+            $("#foodName_" + foodId).html(updatedFoodName);
+            $("#foodContent_" + foodId).html(updatedFoodContent);
+            $("#foodPrice_" + foodId).html(updatedFoodPrice);
+
+            // Hidden inputları ekle
+            $(this).append("<input type='hidden' name='action' value='update'>");
+            $(this).append("<input type='hidden' name='foodName' value='" + updatedFoodName + "'>");
+            $(this).append("<input type='hidden' name='foodContent' value='" + updatedFoodContent + "'>");
+            $(this).append("<input type='hidden' name='foodPrice' value='" + updatedFoodPrice + "'>");
+
+            // Formu submit et
+            $(this).closest("form").submit();
+        });
+
+        // Kapatma butonuna tıklanınca düzenlemeyi geri al
+        $(document).on("click", ".cancel-button", function() {
+            $("#foodName_" + foodId).html(foodName);
+            $("#foodContent_" + foodId).html(foodContent);
+            $("#foodPrice_" + foodId).html(foodPrice);
+
+            // Kapatma butonunu ve güncelleme butonunu kaldır
+            $(this).closest(".edit-buttons").find(".sil, .cancel-button, .guncelle, .update-button").remove();
+
+            // Edit butonunu göster
+            $(".edit-button[data-food-id='" + foodId + "']").show();
+        });
+
+    });
+});
+
+
+
