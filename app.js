@@ -529,8 +529,6 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
 app.post('/SaveRestProfile', upload.single('image') , async(req, res) => {
   const {name,phone,address,open,close,restaurantId} = req.body;
 
-  console.log(req.file.path);
-
   if (!req.file) {
     res.status(400).send('No file uploaded.');
     return;
@@ -557,33 +555,6 @@ app.post('/SaveRestProfile', upload.single('image') , async(req, res) => {
   req.session.user = user;
   res.redirect("/profile");
 });
-
-
-
-// Resim yükleme rotası
-app.post('/upload', upload.single('image'), (req, res) => {
-  if (!req.files) {
-    res.status(400).send('No file uploaded.');
-    return;
-  }
-
-  // Veritabanına kaydetmek için yeni bir Image nesnesi oluştur
-  const image = new Image({
-    name: req.file.originalname,
-    path: req.file.path,
-  });
-
-  image.save();
-
-  // Image nesnesini kaydet
-
-    if (!image) {
-      res.status(500).send('Error saving image to database.');
-    }
-
-    res.send('Image uploaded and saved to database.');
-});
-
 
 app.post('/SaveProfile', async (req, res) => {
 
@@ -724,19 +695,3 @@ app.post('/degerlendir', async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
