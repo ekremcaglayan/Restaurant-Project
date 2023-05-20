@@ -48,6 +48,10 @@
                   const averageStarsB = totalStarsB / (restaurantBStars.length * 3);
                   return averageStarsB - averageStarsA; // Sort in descending order
                 }); %>
+
+                <%if(sortedRestaurants.length>3){
+                  sortedRestaurants.length = 3;
+                }%>
                 <% for (let i = 0; i < sortedRestaurants.length; i++) { %>
                   <% const restaurant = sortedRestaurants[i]; %>
                   <div class="col-sm-6 col-lg-4 all burger">
