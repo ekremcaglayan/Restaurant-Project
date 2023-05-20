@@ -529,23 +529,28 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
 app.post('/SaveRestProfile', upload.single('image'), async(req, res) => {
   const {name,phone,address,open,close,restaurantId} = req.body;
 
-  if (!req.file) {
-    res.status(400).send('No file uploaded.');
-    return;
+  if(req.file){
+    const filePath = req.file.path;
+    const fileName = path.basename(filePath);
+    const restaurant =  await Restaurant.findOneAndUpdate(
+      { _id: restaurantId },
+      { close: close, location: address, name: name , number: phone ,open : open, image: fileName },
+      { new: true }
+    ).exec();
+    if (!restaurant) {
+      return res.status(404).json({ error: 'Restaurant not found' });
+    }
+  }else{
+    const restaurant =  await Restaurant.findOneAndUpdate(
+      { _id: restaurantId },
+      { close: close, location: address, name: name , number: phone ,open : open},
+      { new: true }
+    ).exec();
+    if (!restaurant) {
+      return res.status(404).json({ error: 'Restaurant not found' });
+    }
   }
 
-  const filePath = req.file.path;
-  const fileName = path.basename(filePath);
-
-  const restaurant =  await Restaurant.findOneAndUpdate(
-    { _id: restaurantId },
-    { close: close, location: address, name: name , number: phone ,open : open, image: fileName },
-    { new: true }
-  ).exec();
-
-  if (!restaurant) {
-    return res.status(404).json({ error: 'User not found' });
-  }
 
   const user =  await User.findOne({ restaurant: restaurantId }).populate('restaurant').exec();
   if (!user) {
@@ -583,20 +588,23 @@ app.post('/addFood', upload.single('image'), async (req, res) => {
 
   try {
 
-    if (!req.file) {
-      res.status(400).send('No file uploaded.');
-      return;
-    }
-    
-    const filePath = req.file.path;
-    const image = path.basename(filePath);
-
     const user = await User.findOne({ restaurant: restaurantId }).exec();
     if (!user) {
       return res.status(404).send("User not found");
     }
-    const newFood = new Food({ name, content, price, image, user, category, base });
-    newFood.save();
+
+    if (req.file) {
+      const filePath = req.file.path;
+      const image = path.basename(filePath);
+      const newFood = new Food({ name, content, price, image, user, category, base });
+      newFood.save();
+    }else{
+      const image = "";
+      const newFood = new Food({ name, content, price, image, user, category, base });
+      newFood.save();
+    }
+
+
     res.redirect(`/restaurants/${restaurantId}`);
   } catch (error) {
     console.error(error);

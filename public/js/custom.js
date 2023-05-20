@@ -309,7 +309,7 @@ $(document).ready(function() {
         $(this).closest(".edit-buttons").find("form").append(updateButton);
 
         // Kapatma butonunu ekle
-        var cancelButton = "<li class='list-inline-item sil'><button class='btn btn-secondary btn-sm cancel-button' type='button'><i class='fa-solid fa-xmark'></i></button></li>";
+        var cancelButton = "<li class='list-inline-item sil'><button class='btn btn-secondary btn-sm cancel-button-" + foodId + "' type='button'><i class='fa-solid fa-xmark'></i></button></li>";
         $(this).closest(".edit-buttons").find("form").append(cancelButton);
 
         // Güncelleme butonuna tıklanınca değerleri güncelle
@@ -336,7 +336,7 @@ $(document).ready(function() {
         });
 
         // Kapatma butonuna tıklanınca düzenlemeyi geri al
-        $(document).on("click", ".cancel-button", function() {
+        $(document).on("click", ".cancel-button-" + foodId, function() {
             $("#foodName_" + foodId).html(foodName);
             $("#foodContent_" + foodId).html(foodContent);
             $("#foodPrice_" + foodId).html(foodPrice);
