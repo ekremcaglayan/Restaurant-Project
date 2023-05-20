@@ -48,19 +48,23 @@
                 <li data-filter=".fries">İçecekler</li>
             </ul>-->
 
-
-            <ul class="filters_menu">
-                <li class="active" data-filter="*">Hepsi</li>
-                <% let categoryNames = []; %>
-                <% foods.forEach((food) => { %>
-                    <% food.category.forEach((category) => { %>
-                    <% if (category.name && !categoryNames.includes(category.name)) { %>
-                        <li data-filter=".<%= category.name.toLowerCase().replace(/\s+/g, '').replace(/[^\w\s]/gi, '') %>"><%= category.name %></li>
-                        <% categoryNames.push(category.name); %>
-                    <% } %>
+            <%if(foods.length != 0){%>
+                <ul class="filters_menu">
+                    <li class="active" data-filter="*">Hepsi</li>
+                    <% let categoryNames = []; %>
+                    <% foods.forEach((food) => { %>
+                        <% food.category.forEach((category) => { %>
+                        <% if (category.name && !categoryNames.includes(category.name)) { %>
+                            <li data-filter=".<%= category.name.toLowerCase().replace(/\s+/g, '').replace(/[^\w\s]/gi, '') %>"><%= category.name %></li>
+                            <% categoryNames.push(category.name); %>
+                        <% } %>
+                        <% }); %>
                     <% }); %>
-                <% }); %>
-            </ul>
+                </ul>
+            <% } else { %>
+                <br><br><br>
+                <h1 class="d-flex justify-content-center">HİÇ YEMEK BULUNAMADI</h1>
+            <% } %>
 
             <%if(user){%>
             <% if(user.userType=="restaurant" && user.restaurant._id == restaurant._id){%>
@@ -135,21 +139,21 @@
                                     </div>
                                 </div>
                                 <%if(user){%>
-                                <% if(user.userType=="restaurant" && user.restaurant._id == restaurant._id){%>
-                                <div class="edit-buttons">
-                                    <form action="/foodAction" method="post">
-                                        <li class="list-inline-item">
-                                            <button class="btn btn-primary btn-sm edit-button" type="button" data-toggle="tooltip" data-placement="top" title="Edit" data-food-id="<%= food._id %>"><i class="fa fa-edit"></i></button>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <input type="hidden" name="action" value="delete">
-                                            <input type="hidden" name="foodId" value="<%= food._id %>">
-                                            <input type="hidden" name="restaurantId" value="<%= restaurant._id %>">
-                                            <button class="btn btn-danger btn-sm" type="submit" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
-                                        </li>
-                                    </form>
-                                </div>
-                                <%}%>
+                                    <% if(user.userType=="restaurant" && user.restaurant._id == restaurant._id){%>
+                                    <div class="edit-buttons">
+                                        <form action="/foodAction" method="post">
+                                            <li class="list-inline-item">
+                                                <button class="btn btn-primary btn-sm edit-button" type="button" data-toggle="tooltip" data-placement="top" title="Edit" data-food-id="<%= food._id %>"><i class="fa fa-edit"></i></button>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <input type="hidden" name="action" value="delete">
+                                                <input type="hidden" name="foodId" value="<%= food._id %>">
+                                                <input type="hidden" name="restaurantId" value="<%= restaurant._id %>">
+                                                <button class="btn btn-danger btn-sm" type="submit" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                                            </li>
+                                        </form>
+                                    </div>
+                                    <%}%>
                                 <%}%>
                             </div>
                         </div>
@@ -258,39 +262,41 @@
                     <!-- client section -->
                     <section class="client_section layout_padding-bottom">
                         <div class="container">
-                            <div class="heading_container heading_center psudo_white_primary mb_45">
-                                <h2>Müşteri yorumları</h2>
-                            </div>
-                            <div class="carousel-wrap row ">
-                                <div class="owl-carousel client_owl-carousel">
-                                    <% comments.forEach((comment) => { %>
-                                        <div class="item">
-                                            <div class="box">
-                                                <div class="detail-box">
-                                                    <p><%=comment.comment%></p>
-                                                    <h6><%=comment.user.name%></h6>
-                                                    <%let averageStars = (comment.star.speed+comment.star.taste+comment.star.price)/3; %>
-                                                    <% let fullStars = Math.floor(averageStars); %>
-                                                    <% let hasHalfStar = averageStars - fullStars >= 0.5; %>
-                                                    <% let emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); %>
-                                                    <% for (let k = 0; k < fullStars; k++) { %>
-                                                      <i class="fa fa-star rating-color"></i>
+                            <%if(comments.length != 0){%>
+                                <div class="heading_container heading_center psudo_white_primary mb_45">
+                                    <h2>Müşteri yorumları</h2>
+                                </div>
+                                <div class="carousel-wrap row ">
+                                    <div class="owl-carousel client_owl-carousel">
+                                        <% comments.forEach((comment) => { %>
+                                            <div class="item">
+                                                <div class="box">
+                                                    <div class="detail-box">
+                                                        <p><%=comment.comment%></p>
+                                                        <h6><%=comment.user.name%></h6>
+                                                        <%let averageStars = (comment.star.speed+comment.star.taste+comment.star.price)/3; %>
+                                                        <% let fullStars = Math.floor(averageStars); %>
+                                                        <% let hasHalfStar = averageStars - fullStars >= 0.5; %>
+                                                        <% let emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); %>
+                                                        <% for (let k = 0; k < fullStars; k++) { %>
+                                                        <i class="fa fa-star rating-color"></i>
+                                                        <% } %>
+                                                        <% if (hasHalfStar) { %>
+                                                        <i class="fa-solid fa-star-half-stroke rating-color"></i>
+                                                        <% } %>
+                                                        <% for (let k = 0; k < emptyStars; k++) { %>
+                                                        <i class="fa fa-star"></i>
+                                                        <% } %>
+                                                    <% if (averageStars > 0) { %>
+                                                        <p>Puan: <%= Math.floor(averageStars * 10) / 10 %></p>
                                                     <% } %>
-                                                    <% if (hasHalfStar) { %>
-                                                      <i class="fa-solid fa-star-half-stroke rating-color"></i>
-                                                    <% } %>
-                                                    <% for (let k = 0; k < emptyStars; k++) { %>
-                                                      <i class="fa fa-star"></i>
-                                                    <% } %>
-                                                  <% if (averageStars > 0) { %>
-                                                      <p>Puan: <%= Math.floor(averageStars * 10) / 10 %></p>
-                                                  <% } %>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    <% }); %>
+                                        <% }); %>
+                                    </div>
                                 </div>
-                            </div>
+                            <%}%>
                         </div>
                     </section>
                     <!-- end client section -->
