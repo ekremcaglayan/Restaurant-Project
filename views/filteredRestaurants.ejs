@@ -1,0 +1,134 @@
+<%- include('partials/header') %>
+<style>
+  .box.restoranlar-part {
+      cursor: pointer;
+  }
+</style>
+    <!-- offer section -->
+    <div class="heading_container heading_center">
+        <h2>Filtrelenmiş Restoranlar</h2>
+    </div>
+    <section class="offer_section layout_padding-bottom">
+        <div class="offer_container">
+            <div class="container ">
+                <div class="row">
+                  <% let uniqueRestaurants = new Set(); %>
+
+                  <% foods.forEach(food => { %>
+                    <% uniqueRestaurants.add(food.restaurant._id.toString()); %>
+                  <% }); %>
+
+                  <% Array.from(uniqueRestaurants).forEach(restaurantId => { %>
+                    <% const restaurant = foods.find(food => food.restaurant._id.toString() === restaurantId).restaurant; %>
+                    <% let restaurantFoodsCount = 0; %>
+                    <% const restaurantFoods = foods.filter(food => food.restaurant._id.toString() === restaurantId); %>
+                    <% const restaurantFoodsIds = foods.filter(food => food.restaurant._id.toString() === restaurantId).map(food => food._id); %>
+                    <% const restaurantStars = stars.filter(stars => stars.restaurant._id.toString() === restaurantId); %>
+
+                    <%
+                    // restaurantStar'ları restaurantStar.restaurant._id'lerine göre gruplandırma
+                    const groupedStars = {};
+                    restaurantStars.forEach(restaurantStar => {
+                        const restaurantId = restaurantStar.restaurant._id;
+                        if (groupedStars[restaurantId]) {
+                            groupedStars[restaurantId].push(restaurantStar);
+                        } else {
+                            groupedStars[restaurantId] = [restaurantStar];
+                        }
+                    });
+                
+
+                    let average = 0;
+                    let text = "";
+                    // Gruplanmış restaurantStar'ların priorities değerine göre ortalama hesaplama
+                    Object.keys(groupedStars).forEach(restaurantId => {
+                        const stars = groupedStars[restaurantId];
+                        let sum = 0;
+                        let count = 0;
+                
+                        if (priorities.includes('Hiz')) {
+                            const speedSum = stars.reduce((speedSum, star) => speedSum + star.speed, 0);
+                            sum += speedSum;
+                            count += stars.length;
+                            text += "Hız "
+                        }
+                
+                        if (priorities.includes('Tat')) {
+                            const tasteSum = stars.reduce((tasteSum, star) => tasteSum + star.taste, 0);
+                            sum += tasteSum;
+                            count += stars.length;
+                            text += "Tat "
+                        }
+                
+                        if (priorities.includes('Fiyat')) {
+                            const priceSum = stars.reduce((priceSum, star) => priceSum + star.price, 0);
+                            sum += priceSum;
+                            count += stars.length;
+                            text += "Fiyat "
+                        }
+                
+                        average = count > 0 ? sum / count : 0;
+                    });
+                %>
+                
+                
+                
+
+                    <% restaurantFoodsCount = restaurantFoods.length; %>
+                  
+                    <div class="col-md-6" onclick="submitForm('<%= restaurant._id %>', '<%= restaurantFoodsIds %>')">
+                      <div class="box restoranlar-part">
+                        <div class="img-box">
+                            <img src="images/<%=restaurant.image %>" alt="">
+                        </div>
+                        <div class="detail-box">
+                            <h2><%=restaurant.name %></h2>
+                            <h6>Tel No: <%=restaurant.number %></h6>
+                            <h6>Çalışma Saatleri: <%=restaurant.open %> - <%=restaurant.close %></h6>
+                            <div class="ratings">
+                              <% let fullStars = Math.floor(average); %>
+                              <% let hasHalfStar = average - fullStars >= 0.5; %>
+                              <% let emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); %>
+                              <% for (let k = 0; k < fullStars; k++) { %>
+                                  <i class="fa fa-star rating-color"></i>
+                              <% } %>
+                              <% if (hasHalfStar) { %>
+                                  <i class="fa-solid fa-star-half-stroke rating-color"></i>
+                              <% } %>
+                              <% for (let k = 0; k < emptyStars; k++) { %>
+                                  <i class="fa fa-star"></i>
+                              <% } %>
+                            </div>
+                            <% if (average > 0) { %>
+                            <p><%=text%>: <%= Math.floor(average * 10) / 10 %></p>
+                            <% } %>
+                            <h2><%= restaurantFoodsCount %> Yemek Bulundu.</h2>
+                        </div>
+                      </div>
+                    </div>
+                  <% }); %>
+                  
+                  <form id="restaurantForm" action="/restaurants/:restaurantId/filtered" method="post" style="display: none;">
+                    <input type="hidden" name="restaurantId" id="restaurantIdInput" value="">
+                    <% if (Array.isArray(categories)) { %>
+                      <% categories.forEach(category => { %>
+                        <input type="hidden" name="categoryIds" value="<%= category %>">
+                      <% }); %>
+                    <% } else if (categories) { %>
+                      <input type="hidden" name="categoryIds" value="<%= categories %>">
+                    <% } %>
+                    <% if (Array.isArray(bases)) { %>
+                      <% bases.forEach(base => { %>
+                        <input type="hidden" name="baseIds" value="<%= base %>">
+                      <% }); %>
+                    <% } else if (bases) { %>
+                      <input type="hidden" name="baseIds" value="<%= bases %>">
+                    <% } %>
+                  </form>
+                  
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end offer section -->
+<%- include('partials/footer') %>

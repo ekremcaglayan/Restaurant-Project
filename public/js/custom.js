@@ -352,4 +352,11 @@ $(document).ready(function() {
 });
 
 
+function submitForm(restaurantId, foods) {
+  document.getElementById('restaurantIdInput').value = restaurantId;
+  document.getElementById('restaurantForm').action = '/restaurants/' + restaurantId + '/filtered';
+  document.getElementById('restaurantForm').submit();
+}
+
+
 

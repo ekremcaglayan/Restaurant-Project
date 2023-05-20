@@ -308,64 +308,111 @@ app.get("/profile", function(req,res){
   }
 });
 
-app.post("/test", async (req, res) => {
+app.post("/restoranFiltrele", async (req, res) => {
   const { baseSelect, categorySelect, priorities } = req.body;
+  const user = req.session.user;
   try {
     const foods = await Food.find({
       category: { $in: categorySelect },
       base: { $in: baseSelect }
     })
+      .populate('category')
+      .populate('base')
       .populate({
-        path: "user",
+        path: 'user',
         populate: {
-          path: "restaurant",
-          model: "Restaurant"
+          path: 'restaurant',
+          model: 'Restaurant'
         }
       })
       .exec();
+
     if (!foods) {
       return res.status(404).send("foods not found");
     }
-
-    const restaurantCounts = {};
-    const restaurantData = [];
-
-    foods.forEach(food => {
-      const restaurantName = food.user.restaurant.name;
-      const restaurantId = food.user.restaurant._id;
-
-      if (restaurantCounts.hasOwnProperty(restaurantName)) {
-        restaurantCounts[restaurantName]++;
-      } else {
-        restaurantCounts[restaurantName] = 1;
-        const restaurantInfo = {
-          name: restaurantName,
-          id: restaurantId,
-          count: 0,
-          foods: [],
-          restaurant: food.user.restaurant
-        };
-        restaurantData.push(restaurantInfo);
-      }
-
-      const restaurantInfo = restaurantData.find(info => info.name === restaurantName);
-      restaurantInfo.count++;
-      restaurantInfo.foods.push(food);
-    });
-
-    for (const restaurantInfo of restaurantData) {
-      restaurantInfo.foods = restaurantInfo.foods.map(food => ({
-        name: food.name,
-        category: food.category,
-        base: food.base,
-        // Diğer food özelliklerini buraya ekleyebilirsin
-      }));
+    const stars = await Stars.find().populate('restaurant').exec();
+    if(!stars){
+      return res.status(404).send("stars not found");
     }
 
-    res.render("test", { restaurants: restaurantData });
+    // Food içerisindeki user ve restaurant bilgilerine erişebilirsiniz
+    const populatedFoods = foods.map(food => ({
+      ...food.toJSON(),
+      restaurant: food.user.restaurant
+    }));
+    
+    res.render("filteredRestaurants", {
+      user: user, 
+      title:'Filtrelenmiş Restoranlar', 
+      foods: populatedFoods, 
+      categories: categorySelect, 
+      bases: baseSelect, 
+      stars: stars,
+      priorities: priorities
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Restoran aranırken bir hata oluştu.' });
+  }
+});
+
+
+app.post("/restaurants/:restaurantId/filtered", async (req, res) => {
+  try {
+    const { restaurantId, baseIds, categoryIds } = req.body;
+
+    const user = await User.findOne({ restaurant: restaurantId }).exec();
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    const baseFoods = await BaseFood.find().populate('categories').exec();
+    if(!baseFoods){
+      return res.status(404).send("baseFoods not found");
+    }
+
+    const foods = await Food.find({ 
+      user: user._id, 
+      base: { $in: baseIds },
+      category: { $in: categoryIds }
+  })
+  .populate("user category base")
+  .exec();
+
+      const restaurant = await Restaurant.findById(restaurantId).exec();
+      if (!restaurant) {
+        return res.status(404).send("Restaurant not found");
+      }
+
+    const stars = await Stars.find({ restaurant: restaurant._id }).exec();
+    let averageStars = 0;
+    if (stars.length > 0) {
+      let totalStars = 0;
+      for (let i = 0; i < stars.length; i++) {
+        totalStars += stars[i].speed + stars[i].taste + stars[i].price;
+      }
+      averageStars = totalStars / (stars.length * 3);
+    }
+
+    const comments = await Comments.find({restaurant:restaurant._id} ).populate('restaurant star user').exec();
+    if(!comments){
+      return res.status(404).send("Comments not found");
+    }
+
+    if (restaurantId !== "favicon.ico") {
+      const user = req.session.user;
+      res.render("restoran", {
+        title: restaurant.name,
+        user: user,
+        restaurant: restaurant,
+        foods: foods,
+        averageStars: averageStars,
+        comments:comments,
+        baseFoods: baseFoods
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 });
 

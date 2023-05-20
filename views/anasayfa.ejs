@@ -10,7 +10,7 @@
                             Aramaya Başla
                         </a>
                     </div>
-                    <form action="/test" method="post">
+                    <form action="/restoranFiltrele" method="post">
                         <div class="row justify-content-center collapse" id="collapseSearch">
                             <div class=".col-12 col-md-8 col-lg-6 multiselect-margin">
                                 <select name="baseSelect" id="base-select" class="w-100 selectpicker" data-style="btn-select" title="Yemek Seçiniz..." data-dropup-auto="false" onchange="onBaseSelectChange()" multiple required>
@@ -38,53 +38,56 @@
                 <br><h2>Önerilen Restoranlar</h2>
             </div>
             <div class="filters-content">
-                <div class="row grid">
-                    <% for (let i = 0; i < restaurants.length; i++) { %>
-                        <% let restaurantStars = stars.filter(star => star.restaurant._id.toString() === restaurants[i]._id.toString()); %>
-                        <% let totalStars = 0; %>
-                        <% let averageStars = 0; %>
-                        <% if (restaurantStars.length > 0) { %>
-                          <% for (let j = 0; j < restaurantStars.length; j++) { %>
-                            <% totalStars += restaurantStars[j].speed + restaurantStars[j].taste + restaurantStars[j].price; %>
-                          <% } %>
-                          <% averageStars = totalStars / (restaurantStars.length * 3); %>
-                        <% } %>
-                        <div class="col-sm-6 col-lg-4 all burger">
-                          <a href="restaurants/<%= restaurants[i]._id %>">
-                            <div class="box restoranlar-part">
-                              <div class="img-box">
-                                <img src="images/<%=restaurants[i].image %>" alt="">
-                              </div>
-                              <div class="detail-box">
-                                <h2><%=restaurants[i].name %></h2>
-                                <h6>Tel No: <%=restaurants[i].number %></h6>
-                                <h6>Çalışma Saatleri: <%=restaurants[i].open %> - <%=restaurants[i].close %></h6>
-                                <div class="ratings">
-                                  <% let fullStars = Math.floor(averageStars); %>
-                                  <% let hasHalfStar = averageStars - fullStars >= 0.5; %>
-                                  <% let emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); %>
-                                  <% for (let k = 0; k < fullStars; k++) { %>
-                                    <i class="fa fa-star rating-color"></i>
-                                  <% } %>
-                                  <% if (hasHalfStar) { %>
-                                    <i class="fa-solid fa-star-half-stroke rating-color"></i>
-                                  <% } %>
-                                  <% for (let k = 0; k < emptyStars; k++) { %>
-                                    <i class="fa fa-star"></i>
-                                  <% } %>
-                                </div>
-                                <% if (averageStars > 0) { %>
-                                    <p>Puan: <%= Math.floor(averageStars * 10) / 10 %></p>
-                                <% } %>
-                              </div>
-                            </div>
-                          </a>
+              <div class="row grid">
+                <% const sortedRestaurants = restaurants.sort((a, b) => {
+                  const restaurantAStars = stars.filter(star => star.restaurant._id.toString() === a._id.toString());
+                  const restaurantBStars = stars.filter(star => star.restaurant._id.toString() === b._id.toString());
+                  const totalStarsA = restaurantAStars.reduce((total, star) => total + star.speed + star.taste + star.price, 0);
+                  const totalStarsB = restaurantBStars.reduce((total, star) => total + star.speed + star.taste + star.price, 0);
+                  const averageStarsA = totalStarsA / (restaurantAStars.length * 3);
+                  const averageStarsB = totalStarsB / (restaurantBStars.length * 3);
+                  return averageStarsB - averageStarsA; // Sort in descending order
+                }); %>
+                <% for (let i = 0; i < sortedRestaurants.length; i++) { %>
+                  <% const restaurant = sortedRestaurants[i]; %>
+                  <div class="col-sm-6 col-lg-4 all burger">
+                    <a href="restaurants/<%= restaurant._id %>">
+                      <div class="box restoranlar-part">
+                        <div class="img-box">
+                          <img src="images/<%= restaurant.image %>" alt="">
                         </div>
-                      <% } %>
-                      
-                </div>
+                        <div class="detail-box">
+                          <h2><%= restaurant.name %></h2>
+                          <h6>Tel No: <%= restaurant.number %></h6>
+                          <h6>Çalışma Saatleri: <%= restaurant.open %> - <%= restaurant.close %></h6>
+                          <div class="ratings">
+                            <% const restaurantStars = stars.filter(star => star.restaurant._id.toString() === restaurant._id.toString()); %>
+                            <% const totalStars = restaurantStars.reduce((total, star) => total + star.speed + star.taste + star.price, 0); %>
+                            <% const averageStars = totalStars / (restaurantStars.length * 3); %>
+                            <% const fullStars = Math.floor(averageStars); %>
+                            <% const hasHalfStar = averageStars - fullStars >= 0.5; %>
+                            <% const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); %>
+                            <% for (let k = 0; k < fullStars; k++) { %>
+                              <i class="fa fa-star rating-color"></i>
+                            <% } %>
+                            <% if (hasHalfStar) { %>
+                              <i class="fa-solid fa-star-half-stroke rating-color"></i>
+                            <% } %>
+                            <% for (let k = 0; k < emptyStars; k++) { %>
+                              <i class="fa fa-star"></i>
+                            <% } %>
+                          </div>
+                          <% if (averageStars > 0) { %>
+                            <p>Puan: <%= Math.floor(averageStars * 10) / 10 %></p>
+                          <% } %>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                <% } %>
+              </div>
             </div>
-        </div>
+            
     </section>
     <!-- end restaurant section -->
 <%- include('partials/footer') %>
