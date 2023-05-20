@@ -364,5 +364,12 @@ document.getElementById("image-input").addEventListener("change", function(e) {
       document.getElementById("image-preview").src = event.target.result;
     };
     reader.readAsDataURL(e.target.files[0]);
-});
+  });
+
+
+  function submitProfile() {
+    document.getElementById('profileImageHidden').value =  document.getElementById('image-input').value;
+    document.getElementById('restProfileForm').action = '/SaveRestProfile';
+    document.getElementById('restProfileForm').submit();
+  }
 

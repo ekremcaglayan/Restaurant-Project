@@ -32,7 +32,7 @@ app.use(
 // Multer ayarlarını yap
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/images/test/');
+    cb(null, 'public/images/');
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -526,19 +526,20 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
 });
 
 
-app.post('/SaveRestProfile', upload.single('image') , (req, res) => {
+app.post('/SaveRestProfile', upload.single('image') , async(req, res) => {
   const {name,phone,address,open,close,restaurantId} = req.body;
-
-  console.log(req.file.path);
 
   if (!req.file) {
     res.status(400).send('No file uploaded.');
     return;
   }
 
-  const restaurant =  Restaurant.findOneAndUpdate(
+  const filePath = req.file.path;
+  const fileName = path.basename(filePath);
+
+  const restaurant =  await Restaurant.findOneAndUpdate(
     { _id: restaurantId },
-    { close: close, location: address, name: name , number: phone ,open : open, image: req.file.path },
+    { close: close, location: address, name: name , number: phone ,open : open, image: fileName },
     { new: true }
   ).exec();
 
@@ -546,7 +547,7 @@ app.post('/SaveRestProfile', upload.single('image') , (req, res) => {
     return res.status(404).json({ error: 'User not found' });
   }
 
-  const user =  User.findOne({ restaurant: restaurantId }).populate('restaurant').exec();
+  const user =  await User.findOne({ restaurant: restaurantId }).populate('restaurant').exec();
   if (!user) {
     return res.status(404).send("User not found");
   }

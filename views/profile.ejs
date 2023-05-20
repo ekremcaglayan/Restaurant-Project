@@ -87,9 +87,9 @@
                                 </div>
                             </div>
                             <input type="hidden" name="restaurantId" value="<%=user.restaurant._id%>">
-                            <input type="file" name="image">
+                            <input type="file" id="profileImageHidden" style="display: none;" name="image">
                             <div class="mt-4 text-center">
-                                <button class="btn btn-dark btn-lg profile-button" type="submit">Kaydet</button>
+                                <button onclick="submitProfile()" class="btn btn-dark btn-lg profile-button" type="submit">Kaydet</button>
                             </div>
                         </form>
                     </div>
