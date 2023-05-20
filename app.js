@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const path = require('path');
 const cookieSession = require('cookie-session');
 
 
@@ -25,6 +27,20 @@ app.use(
     },
   })
 );
+
+
+// Multer ayarlarını yap
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/images/test/');
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const extension = path.extname(file.originalname);
+    cb(null, file.fieldname + '-' + uniqueSuffix + extension);
+  },
+});
+const upload = multer({ storage: storage });
 
 
 app.listen(3000, () => {
@@ -510,13 +526,19 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
 });
 
 
+app.post('/SaveRestProfile', upload.single('image') , (req, res) => {
+  const {name,phone,address,open,close,restaurantId} = req.body;
 
-app.post('/SaveRestProfile', async (req, res) => {
-    const {name,phone,address,open,close,restaurantId} = req.body;
-  
-   const restaurant = await Restaurant.findOneAndUpdate(
+  console.log(req.file.path);
+
+  if (!req.file) {
+    res.status(400).send('No file uploaded.');
+    return;
+  }
+
+  const restaurant =  Restaurant.findOneAndUpdate(
     { _id: restaurantId },
-    { close: close, location: address, name: name , number: phone ,open : open },
+    { close: close, location: address, name: name , number: phone ,open : open, image: req.file.path },
     { new: true }
   ).exec();
 
@@ -524,17 +546,41 @@ app.post('/SaveRestProfile', async (req, res) => {
     return res.status(404).json({ error: 'User not found' });
   }
 
-  const user = await User.findOne({ restaurant: restaurantId }).populate('restaurant').exec();
+  const user =  User.findOne({ restaurant: restaurantId }).populate('restaurant').exec();
   if (!user) {
     return res.status(404).send("User not found");
   }
 
   req.session.user = user;
   res.redirect("/profile");
-
-  console.log(name,phone,address,open,close);
-
 });
+
+
+
+// Resim yükleme rotası
+app.post('/upload', upload.single('image'), (req, res) => {
+  if (!req.files) {
+    res.status(400).send('No file uploaded.');
+    return;
+  }
+
+  // Veritabanına kaydetmek için yeni bir Image nesnesi oluştur
+  const image = new Image({
+    name: req.file.originalname,
+    path: req.file.path,
+  });
+
+  image.save();
+
+  // Image nesnesini kaydet
+
+    if (!image) {
+      res.status(500).send('Error saving image to database.');
+    }
+
+    res.send('Image uploaded and saved to database.');
+});
+
 
 app.post('/SaveProfile', async (req, res) => {
 
@@ -554,8 +600,8 @@ app.post('/SaveProfile', async (req, res) => {
   res.redirect("/profile");
   
   console.log(name,surname,email, userId);
-
 });
+
 
 app.post('/addFood', async (req, res) => {
 
@@ -574,8 +620,8 @@ app.post('/addFood', async (req, res) => {
     console.error(error);
     res.render('hata', { mesaj: 'Yemek kaydedilirken hata oluştu.' });
   }
-
 });
+
 
 app.post('/foodAction', async(req, res) => {
   const { action, foodName, foodId, foodContent, foodPrice} = req.body;
@@ -644,7 +690,8 @@ app.get('/restoranlar', async (req, res) => {
       console.log(error);
       res.status(500).send("Internal Server Error");
     }
-  });
+});
+
 
 app.get("/:navigation", function(req, res){
   
@@ -654,6 +701,7 @@ app.get("/:navigation", function(req, res){
     res.render(navigation, {title: navigation, user: user});
   }
 });
+
 
 app.post('/degerlendir', async (req, res) => {
   try {
@@ -673,3 +721,19 @@ app.post('/degerlendir', async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

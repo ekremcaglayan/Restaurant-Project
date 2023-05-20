@@ -38,56 +38,59 @@
                 <hr>
                 <div class="col-md-4 border-right">
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <h1>Restoran Bilgileriniz</h1>
-                            <input type="file" name="image" id="image-input" class="form-control" style="display: none;">
-                            <label for="image-input">
-                                <img src="/images/<%=user.restaurant.image %>" alt="Mevcut Resim" width="100" height="100" style="cursor: pointer;">
-                            </label>
-                            <br>
-                            <span class="font-weight-bold">Restoran Adı: <%=user.restaurant.name%></span>
-                            <span class="font-weight-bold">Tel No: <%=user.restaurant.number%></span>
-                            <span class="font-weight-bold"><a href="<%= user.restaurant.location %>">Konum</a></span>
-                            <span class="text-black-50">Açılış - Kapanış: <%=user.restaurant.open%> - <%=user.restaurant.close%></span>
-                            <br>
-                            <h2>Menü</h2>
-                            <div class="mt-1 text-center">
-                                <a href="/restaurants/<%=user.restaurant._id%>">
-                                  <button class="btn btn-dark profile-button" type="button">Düzenle</button>
-                                </a>
-                              </div>
-                              
+                        <h1>Restoran Bilgileriniz</h1>
+                        <label for="image-input">
+                            <img src="/images/<%=user.restaurant.image %>" alt="Mevcut Resim" width="100" height="100" style="cursor: pointer;" id="image-preview">
+                        </label>
+                        <input type="file" name="image" class="form-control" id="image-input" style="display: none;" value="<%=user.restaurant.image%>">
+                        <br>
+                        <span class="font-weight-bold">Restoran Adı: <%=user.restaurant.name%></span>
+                        <span class="font-weight-bold">Tel No: <%=user.restaurant.number%></span>
+                        <span class="font-weight-bold"><a href="<%= user.restaurant.location %>">Konum</a></span>
+                        <span class="text-black-50">Açılış - Kapanış: <%=user.restaurant.open%> - <%=user.restaurant.close%></span>
+                        <br>
+                        <h2>Menü</h2>
+                        <div class="mt-1 text-center">
+                            <a href="/restaurants/<%=user.restaurant._id%>">
+                                <button class="btn btn-dark profile-button" type="button">Düzenle</button>
+                            </a>
+                        </div>
                     </div> 
                 </div>
+            
                 <div class="col-md-8 border-right">
                     <div class="p-3 py-5">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h4 class="text-right">Restoran Ayarları</h4>
                         </div>
-                        <form action="/saveRestProfile" method="post">
-                        <div class="row mt-2">
-                            <div class="col-md-6"><label class="labels">Restoran İsmi</label><input type="text" name="name" class="form-control" placeholder="<%=user.restaurant.name%>" value="<%=user.restaurant.name%>"></div>
-                            <div class="col-md-6">
-                                <label class="labels">Telefon numarası</label>
-                                <input type="text" name="phone" class="form-control" placeholder="<%=user.restaurant.number%>" value="<%=user.restaurant.number%>">
+                        <form id="restProfileForm" action="/saveRestProfile" method="post" enctype="multipart/form-data">
+                            <div class="row mt-2">
+                                <div class="col-md-6"><label class="labels">Restoran İsmi</label><input type="text" name="name" class="form-control" placeholder="<%=user.restaurant.name%>" value="<%=user.restaurant.name%>"></div>
+                                <div class="col-md-6">
+                                    <label class="labels">Telefon numarası</label>
+                                    <input type="text" name="phone" class="form-control" placeholder="<%=user.restaurant.number%>" value="<%=user.restaurant.number%>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-md-12"><label class="labels">Adres</label>
-                                <input type="text" name="address" class="form-control" placeholder="<%=user.restaurant.location%>" value="<%=user.restaurant.location%>">
-                            </div>                          
-                         </div>
-                         <div class="row mt-3">
-                            <div class="col-md-6">
-                                <label class="labels">Açılış Saati</label>
-                                <input type="text" name="open" class="form-control" placeholder="<%=user.restaurant.open%>" value="<%=user.restaurant.open%>">
+                            <div class="row mt-3">
+                                <div class="col-md-12"><label class="labels">Adres</label>
+                                    <input type="text" name="address" class="form-control" placeholder="<%=user.restaurant.location%>" value="<%=user.restaurant.location%>">
+                                </div>                          
                             </div>
-                            <div class="col-md-6">
-                                <label class="labels">Kapanış Saati</label>
-                                <input type="text" name="close" class="form-control" placeholder="<%=user.restaurant.close%>" value="<%=user.restaurant.close%>">
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label class="labels">Açılış Saati</label>
+                                    <input type="text" name="open" class="form-control" placeholder="<%=user.restaurant.open%>" value="<%=user.restaurant.open%>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="labels">Kapanış Saati</label>
+                                    <input type="text" name="close" class="form-control" placeholder="<%=user.restaurant.close%>" value="<%=user.restaurant.close%>">
+                                </div>
                             </div>
-                        </div>
-                        <input type="hidden" name="restaurantId" value="<%=user.restaurant._id%>">
-                        <div class="mt-4 text-center"><button class="btn btn-dark btn-lg profile-button" type="submit">Kaydet</button></div>
+                            <input type="hidden" name="restaurantId" value="<%=user.restaurant._id%>">
+                            <input type="file" name="image">
+                            <div class="mt-4 text-center">
+                                <button class="btn btn-dark btn-lg profile-button" type="submit">Kaydet</button>
+                            </div>
                         </form>
                     </div>
                 </div>
