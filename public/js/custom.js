@@ -365,11 +365,3 @@ document.getElementById("image-input").addEventListener("change", function(e) {
     };
     reader.readAsDataURL(e.target.files[0]);
   });
-
-
-  function submitProfile() {
-    document.getElementById('profileImageHidden').value =  document.getElementById('image-input').value;
-    document.getElementById('restProfileForm').action = '/SaveRestProfile';
-    document.getElementById('restProfileForm').submit();
-  }
-

@@ -529,6 +529,8 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
 app.post('/SaveRestProfile', upload.single('image') , async(req, res) => {
   const {name,phone,address,open,close,restaurantId} = req.body;
 
+  console.log(req.file.path);
+
   if (!req.file) {
     res.status(400).send('No file uploaded.');
     return;
