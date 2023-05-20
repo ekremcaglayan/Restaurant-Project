@@ -526,7 +526,7 @@ app.get("/restaurants/:restaurantId", async (req, res) => {
 });
 
 
-app.post('/SaveRestProfile', upload.single('image') , async(req, res) => {
+app.post('/SaveRestProfile', upload.single('image'), async(req, res) => {
   const {name,phone,address,open,close,restaurantId} = req.body;
 
   if (!req.file) {
@@ -577,12 +577,20 @@ app.post('/SaveProfile', async (req, res) => {
 });
 
 
-app.post('/addFood', async (req, res) => {
+app.post('/addFood', upload.single('image'), async (req, res) => {
 
-  const { name, content, price, image, restaurantId, category, base } = req.body;
-  console.log(name, content, price, image, restaurantId, category, base);
+  const { name, content, price, restaurantId, category, base } = req.body;
 
   try {
+
+    if (!req.file) {
+      res.status(400).send('No file uploaded.');
+      return;
+    }
+    
+    const filePath = req.file.path;
+    const image = path.basename(filePath);
+
     const user = await User.findOne({ restaurant: restaurantId }).exec();
     if (!user) {
       return res.status(404).send("User not found");
